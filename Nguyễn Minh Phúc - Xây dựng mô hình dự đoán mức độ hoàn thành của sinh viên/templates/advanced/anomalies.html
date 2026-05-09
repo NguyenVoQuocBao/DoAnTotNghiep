@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Phát hiện Sinh viên Có nguy cơ{% endblock %}
+
+{% block extra_head %}
+<style>
+    .risk-high { border-left: 4px solid #ef4444; background: #fef2f2; }
+    .risk-medium { border-left: 4px solid #f59e0b; background: #fffbeb; }
+    .risk-low { border-left: 4px solid #10b981; background: #f0fdf4; }
+    .metric-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); color: #1e293b; }
+    .metric-value { font-size: 2rem; font-weight: bold; }
+    .metric-label { color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .table { color: #1e293b; }
+    .table th { background: #f8fafc; color: #374151; }
+    .badge-risk { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-exclamation-triangle text-warning"></i> Phát hiện Sinh viên Có nguy cơ</h2>
+        <a href="{{ url_for('advanced.advanced_dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <div id="loadingDiv" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2">Đang phân tích...</p>
+    </div>
+
+    <div id="resultsDiv" style="display:none;">
+        <div class="row mb-4" id="summaryCards"></div>
+
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-user-times"></i> Danh sách sinh viên có nguy cơ</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm sinh viên...">
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead><tr>
+                            <th>MSSV</th><th>Tên</th><th>Mức độ rủi ro</th>
+                            <th>Điểm hoàn thành</th><th>Vấn đề chính</th><th>Gợi ý</th>
+                        </tr></thead>
+                        <tbody id="anomalyTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="errorDiv" class="alert alert-danger" style="display:none;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let allData = [];
+
+async function loadAnomalies() {
+    try {
+        const res = await fetch('/advanced/api/anomalies');
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Lỗi không xác định');
+        allData = data.data.at_risk_students || data.data || [];
+        renderResults(data.data);
+    } catch(e) {
+        document.getElementById('errorDiv').textContent = 'Lỗi: ' + e.message;
+        document.getElementById('errorDiv').style.display = 'block';
+    } finally {
+        document.getElementById('loadingDiv').style.display = 'none';
+    }
+}
+
+function getRiskBadge(level) {
+    const map = {
+        'Cao': '<span class="badge-risk" style="background:#fee2e2;color:#991b1b">🔴 Cao</span>',
+        'Trung bình': '<span class="badge-risk" style="background:#fef3c7;color:#92400e">🟡 Trung bình</span>',
+        'Thấp': '<span class="badge-risk" style="background:#d1fae5;color:#065f46">🟢 Thấp</span>',
+    };
+    return map[level] || `<span class="badge-risk" style="background:#e2e8f0;color:#475569">${level || 'N/A'}</span>`;
+}
+
+function renderResults(data) {
+    const students = data.at_risk_students || data || [];
+    const high = students.filter(s => s.risk_level === 'Cao').length;
+    const medium = students.filter(s => s.risk_level === 'Trung bình').length;
+
+    document.getElementById('summaryCards').innerHTML = `
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value text-danger">${high}</div>
+            <div class="metric-label">Nguy cơ cao</div>
+        </div></div>
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value text-warning">${medium}</div>
+            <div class="metric-label">Nguy cơ trung bình</div>
+        </div></div>
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value text-success">${students.length - high - medium}</div>
+            <div class="metric-label">Nguy cơ thấp</div>
+        </div></div>
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value text-primary">${students.length}</div>
+            <div class="metric-label">Tổng cần theo dõi</div>
+        </div></div>
+    `;
+
+    renderTable(students);
+    document.getElementById('resultsDiv').style.display = 'block';
+}
+
+function renderTable(students) {
+    document.getElementById('anomalyTableBody').innerHTML = students.map(s => `
+        <tr>
+            <td><strong>${s.student_id || s.username || 'N/A'}</strong></td>
+            <td>${s.name || 'N/A'}</td>
+            <td>${getRiskBadge(s.risk_level)}</td>
+            <td>${s.completion_score ? s.completion_score.toFixed(2) : 'N/A'}</td>
+            <td>${s.main_issue || s.issues || 'N/A'}</td>
+            <td>${s.suggestion || s.recommendation || 'Cần hỗ trợ thêm'}</td>
+        </tr>
+    `).join('') || '<tr><td colspan="6" class="text-center text-muted">Không có sinh viên nào có nguy cơ cao</td></tr>';
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    const filtered = allData.filter(s =>
+        (s.student_id || '').toLowerCase().includes(q) ||
+        (s.name || '').toLowerCase().includes(q)
+    );
+    renderTable(filtered);
+});
+
+loadAnomalies();
+</script>
+{% endblock %}

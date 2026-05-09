@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}Thống kê Thời gian thực{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .metric-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); color: #1e293b; transition: transform 0.2s; }
+    .metric-card:hover { transform: translateY(-3px); }
+    .metric-value { font-size: 2.5rem; font-weight: bold; color: #4f46e5; }
+    .metric-label { color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .chart-container { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .status-live { background: #10b981; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .last-updated { font-size: 0.8rem; color: #94a3b8; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="fas fa-chart-line"></i> Thống kê Thời gian thực</h2>
+            <span class="last-updated">
+                <span class="status-dot status-live"></span>
+                Cập nhật lúc: <span id="lastUpdated">--</span>
+            </span>
+        </div>
+        <div>
+            <button id="refreshBtn" class="btn btn-primary me-2">
+                <i class="fas fa-sync-alt"></i> Làm mới
+            </button>
+            <a href="{{ url_for('advanced.advanced_dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <div id="loadingDiv" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2">Đang tải...</p>
+    </div>
+
+    <div id="resultsDiv" style="display:none;">
+        <!-- Stats cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="metric-card text-center">
+                    <div class="metric-value" id="totalStudents">--</div>
+                    <div class="metric-label">Tổng sinh viên</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card text-center">
+                    <div class="metric-value text-success" id="highPerf">--</div>
+                    <div class="metric-label">Hoàn thành cao</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card text-center">
+                    <div class="metric-value text-warning" id="midPerf">--</div>
+                    <div class="metric-label">Hoàn thành TB</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card text-center">
+                    <div class="metric-value text-danger" id="lowPerf">--</div>
+                    <div class="metric-label">Hoàn thành thấp</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="mb-3">Phân bố mức độ hoàn thành</h5>
+                    <canvas id="completionChart" height="250"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="mb-3">Phân bố nhóm hành vi</h5>
+                    <canvas id="behaviorChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="metric-card text-center">
+                    <div class="metric-value text-info" id="highPct">--</div>
+                    <div class="metric-label">% Sinh viên xuất sắc</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-card text-center">
+                    <div class="metric-value" id="connections">--</div>
+                    <div class="metric-label">Kết nối hiện tại</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-card text-center">
+                    <div class="metric-value text-primary" id="autoRefresh">30s</div>
+                    <div class="metric-label">Tự động làm mới</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="errorDiv" class="alert alert-danger" style="display:none;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let completionChart, behaviorChart, refreshTimer, countdown = 30;
+
+async function loadStats() {
+    try {
+        const res = await fetch('/advanced/api/real_time_stats');
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Lỗi');
+        renderStats(data.data);
+    } catch(e) {
+        document.getElementById('errorDiv').textContent = 'Lỗi: ' + e.message;
+        document.getElementById('errorDiv').style.display = 'block';
+    } finally {
+        document.getElementById('loadingDiv').style.display = 'none';
+    }
+}
+
+function renderStats(data) {
+    const s = data.student_stats || {};
+    const dist = s.completion_distribution || {};
+    const beh = s.behavior_distribution || {};
+
+    document.getElementById('totalStudents').textContent = s.total || 0;
+    document.getElementById('highPerf').textContent = dist['Cao'] || 0;
+    document.getElementById('midPerf').textContent = dist['Trung bình'] || 0;
+    document.getElementById('lowPerf').textContent = dist['Thấp'] || 0;
+    document.getElementById('highPct').textContent = (s.high_performers_percentage || 0) + '%';
+    document.getElementById('connections').textContent = data.connection_stats?.active_connections || 0;
+    document.getElementById('lastUpdated').textContent = data.timestamp || new Date().toLocaleTimeString('vi-VN');
+
+    if (completionChart) completionChart.destroy();
+    completionChart = new Chart(document.getElementById('completionChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Cao', 'Trung bình', 'Thấp'],
+            datasets: [{ data: [dist['Cao']||0, dist['Trung bình']||0, dist['Thấp']||0], backgroundColor: ['#10b981','#f59e0b','#ef4444'] }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    if (behaviorChart) behaviorChart.destroy();
+    behaviorChart = new Chart(document.getElementById('behaviorChart'), {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(beh),
+            datasets: [{ data: Object.values(beh), backgroundColor: ['#4f46e5','#f59e0b','#94a3b8'] }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    document.getElementById('resultsDiv').style.display = 'block';
+}
+
+function startCountdown() {
+    countdown = 30;
+    clearInterval(refreshTimer);
+    refreshTimer = setInterval(() => {
+        countdown--;
+        document.getElementById('autoRefresh').textContent = countdown + 's';
+        if (countdown <= 0) {
+            loadStats();
+            countdown = 30;
+        }
+    }, 1000);
+}
+
+document.getElementById('refreshBtn').addEventListener('click', () => {
+    loadStats();
+    startCountdown();
+});
+
+loadStats();
+startCountdown();
+</script>
+{% endblock %}

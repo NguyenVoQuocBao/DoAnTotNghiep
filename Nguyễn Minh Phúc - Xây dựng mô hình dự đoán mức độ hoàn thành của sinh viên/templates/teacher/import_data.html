@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Import Dữ liệu Sinh viên{% endblock %}
+
+{% block extra_head %}
+<style>
+    .card-box { background:white; border-radius:12px; padding:1.5rem; box-shadow:0 4px 12px rgba(0,0,0,0.07); margin-bottom:1.5rem; color:#1e293b; }
+    .card-box h4 { color:#1e293b; font-weight:600; margin-bottom:1rem; }
+    .col-tag { display:inline-block; background:#f1f5f9; color:#475569; border-radius:6px; padding:3px 10px; font-size:0.82rem; margin:3px; font-family:monospace; }
+    .col-tag.required { background:#dbeafe; color:#1d4ed8; }
+    .drop-zone { border:2px dashed #cbd5e1; border-radius:10px; padding:2.5rem; text-align:center; cursor:pointer; transition:all 0.2s; color:#64748b; }
+    .drop-zone:hover, .drop-zone.dragover { border-color:#4f46e5; background:#f5f3ff; color:#4f46e5; }
+    .progress-bar-wrap { background:#e2e8f0; border-radius:4px; height:8px; margin-top:0.5rem; }
+    .progress-bar-fill { height:8px; border-radius:4px; background:linear-gradient(90deg,#4f46e5,#818cf8); transition:width 0.4s; }
+    .result-box { border-radius:10px; padding:1rem 1.25rem; margin-top:1rem; }
+    .result-success { background:#d1fae5; color:#065f46; border-left:4px solid #10b981; }
+    .result-error { background:#fee2e2; color:#991b1b; border-left:4px solid #ef4444; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width:860px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📥 Import Dữ liệu Sinh viên</h2>
+        <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-secondary">← Quay lại</a>
+    </div>
+
+    <!-- Export section -->
+    <div class="card-box">
+        <h4>📤 Xuất dữ liệu</h4>
+        <p style="color:#64748b;margin-bottom:1rem;">Tải xuống dữ liệu hiện tại hoặc file mẫu để import.</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+            <a href="{{ url_for('teacher.export_excel') }}" class="btn btn-success">
+                📊 Xuất Excel (đầy đủ)
+            </a>
+            <a href="{{ url_for('teacher.export_csv') }}" class="btn btn-info">
+                📄 Xuất CSV
+            </a>
+            <a href="{{ url_for('teacher.import_template') }}" class="btn btn-secondary">
+                📋 Tải file mẫu Import
+            </a>
+        </div>
+    </div>
+
+    <!-- Import section -->
+    <div class="card-box">
+        <h4>📥 Import dữ liệu từ file</h4>
+
+        <!-- Column guide -->
+        <div style="background:#f8fafc;border-radius:8px;padding:1rem;margin-bottom:1.25rem;">
+            <p style="font-size:0.85rem;color:#475569;margin-bottom:0.5rem;font-weight:600;">Các cột được nhận dạng:</p>
+            <span class="col-tag required">Mã sinh viên *</span>
+            <span class="col-tag">Họ và tên</span>
+            <span class="col-tag">Điểm thi</span>
+            <span class="col-tag">Tỷ lệ hoàn thành BT</span>
+            <span class="col-tag">Số lần truy cập</span>
+            <span class="col-tag">Thời gian học (phút)</span>
+            <span class="col-tag">Điểm nộp bài</span>
+            <p style="font-size:0.78rem;color:#94a3b8;margin-top:0.5rem;">* Bắt buộc. Sinh viên đã tồn tại sẽ được cập nhật, chưa có sẽ được tạo mới.</p>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <div style="font-size:2.5rem;margin-bottom:0.5rem;">📂</div>
+            <div style="font-weight:600;">Kéo thả file vào đây hoặc click để chọn</div>
+            <div style="font-size:0.85rem;margin-top:0.25rem;">Hỗ trợ: .xlsx, .xls, .csv</div>
+        </div>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none;">
+
+        <div id="fileInfo" style="display:none;margin-top:0.75rem;padding:0.75rem;background:#f8fafc;border-radius:8px;">
+            <span id="fileName" style="font-weight:600;color:#1e293b;"></span>
+            <span id="fileSize" style="color:#64748b;font-size:0.85rem;margin-left:0.5rem;"></span>
+        </div>
+
+        <div id="progressWrap" style="display:none;margin-top:0.75rem;">
+            <div style="font-size:0.85rem;color:#64748b;">Đang xử lý...</div>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+        </div>
+
+        <button id="importBtn" class="btn btn-primary" style="margin-top:1rem;display:none;" onclick="doImport()">
+            ⬆️ Bắt đầu Import
+        </button>
+
+        <div style="margin-top:0.75rem;display:none;" id="replaceOption">
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.9rem;color:#1e293b;">
+                <input type="checkbox" id="replaceMode" style="width:16px;height:16px;">
+                <span>⚠️ <strong>Xóa toàn bộ dữ liệu cũ</strong> và thay thế bằng file này</span>
+            </label>
+        </div>
+
+        <div id="resultBox" style="display:none;"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+let selectedFile = null;
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) setFile(fileInput.files[0]); });
+
+function setFile(file) {
+    selectedFile = file;
+    document.getElementById('fileName').textContent = file.name;
+    document.getElementById('fileSize').textContent = `(${(file.size / 1024).toFixed(1)} KB)`;
+    document.getElementById('fileInfo').style.display = 'block';
+    document.getElementById('importBtn').style.display = 'inline-block';
+    document.getElementById('replaceOption').style.display = 'block';
+    document.getElementById('resultBox').style.display = 'none';
+}
+
+async function doImport() {
+    if (!selectedFile) return;
+
+    document.getElementById('progressWrap').style.display = 'block';
+    document.getElementById('importBtn').disabled = true;
+
+    // Animate progress
+    let pct = 0;
+    const bar = document.getElementById('progressBar');
+    const timer = setInterval(() => { pct = Math.min(pct + 10, 85); bar.style.width = pct + '%'; }, 150);
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('replace_mode', document.getElementById('replaceMode').checked ? '1' : '0');
+
+    try {
+        const res = await fetch('{{ url_for("teacher.import_data") }}', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        clearInterval(timer);
+        bar.style.width = '100%';
+
+        const box = document.getElementById('resultBox');
+        box.style.display = 'block';
+
+        if (data.success) {
+            box.className = 'result-box result-success';
+            box.innerHTML = `
+                <strong>✅ Import thành công!</strong><br>
+                ${data.message}<br>
+                <small>Cập nhật: <strong>${data.updated}</strong> | Thêm mới: <strong>${data.created}</strong> | Tổng: <strong>${data.total}</strong></small>
+                <div style="margin-top:0.75rem;">
+                    <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-success btn-sm">Xem danh sách sinh viên</a>
+                </div>
+            `;
+        } else {
+            box.className = 'result-box result-error';
+            box.innerHTML = `<strong>❌ Lỗi:</strong> ${data.error}`;
+        }
+    } catch(e) {
+        clearInterval(timer);
+        const box = document.getElementById('resultBox');
+        box.style.display = 'block';
+        box.className = 'result-box result-error';
+        box.innerHTML = `<strong>❌ Lỗi kết nối:</strong> ${e.message}`;
+    } finally {
+        document.getElementById('importBtn').disabled = false;
+        document.getElementById('progressWrap').style.display = 'none';
+    }
+}
+</script>
+{% endblock %}

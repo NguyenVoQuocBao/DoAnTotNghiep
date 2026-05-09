@@ -1,0 +1,3532 @@
+{
+  "122001292": {
+    "username": "122001292",
+    "student_id": "122001292",
+    "name": "Nguyễn Ngọc Thủy Tiên",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001292",
+      "full_name": "Nguyễn Ngọc Thủy Tiên",
+      "test_scores": 10.0,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 95,
+      "max_access_count": 100,
+      "study_time_minutes": 900,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0,
+      "submission_timing": 5.0
+    }
+  },
+  "122001150": {
+    "username": "122001150",
+    "student_id": "122001150",
+    "name": "Nguyễn Thị Thanh Hà",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001150",
+      "full_name": "Nguyễn Thị Thanh Hà",
+      "test_scores": 9.76,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 93,
+      "max_access_count": 100,
+      "study_time_minutes": 956.37,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001385": {
+    "username": "122001385",
+    "student_id": "122001385",
+    "name": "Trần Gia Bảo",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001385",
+      "full_name": "Trần Gia Bảo",
+      "test_scores": 9.49,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.99,
+      "access_count": 63,
+      "max_access_count": 100,
+      "study_time_minutes": 966.47,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001425": {
+    "username": "122001425",
+    "student_id": "122001425",
+    "name": "Nguyễn Hiếu Thịnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001425",
+      "full_name": "Nguyễn Hiếu Thịnh",
+      "test_scores": 9.14,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.97,
+      "access_count": 87,
+      "max_access_count": 100,
+      "study_time_minutes": 769.89,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001047": {
+    "username": "122001047",
+    "student_id": "122001047",
+    "name": "Chu Hoàng Long",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001047",
+      "full_name": "Chu Hoàng Long",
+      "test_scores": 8.79,
+      "max_test_score": 10,
+      "assignment_completion_rate": 1.0,
+      "access_count": 96,
+      "max_access_count": 100,
+      "study_time_minutes": 685.24,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001374": {
+    "username": "122001374",
+    "student_id": "122001374",
+    "name": "Hoàng Trung Hậu",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001374",
+      "full_name": "Hoàng Trung Hậu",
+      "test_scores": 9.04,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.94,
+      "access_count": 94,
+      "max_access_count": 100,
+      "study_time_minutes": 739.79,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001502": {
+    "username": "122001502",
+    "student_id": "122001502",
+    "name": "Nguyễn Minh Khôi",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001502",
+      "full_name": "Nguyễn Minh Khôi",
+      "test_scores": 8.84,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.97,
+      "access_count": 89,
+      "max_access_count": 100,
+      "study_time_minutes": 752.94,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000544": {
+    "username": "122000544",
+    "student_id": "122000544",
+    "name": "Dương Phước Hiệp",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000544",
+      "full_name": "Dương Phước Hiệp",
+      "test_scores": 9.18,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.86,
+      "access_count": 82,
+      "max_access_count": 100,
+      "study_time_minutes": 891.83,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001452": {
+    "username": "122001452",
+    "student_id": "122001452",
+    "name": "Nguyễn Trọng Quốc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001452",
+      "full_name": "Nguyễn Trọng Quốc",
+      "test_scores": 9.72,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.89,
+      "access_count": 55,
+      "max_access_count": 100,
+      "study_time_minutes": 969.92,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001123": {
+    "username": "122001123",
+    "student_id": "122001123",
+    "name": "Phùng Thụy Vân Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001123",
+      "full_name": "Phùng Thụy Vân Anh",
+      "test_scores": 9.51,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.8,
+      "access_count": 89,
+      "max_access_count": 100,
+      "study_time_minutes": 803.95,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001472": {
+    "username": "122001472",
+    "student_id": "122001472",
+    "name": "Nguyễn Văn Mạnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001472",
+      "full_name": "Nguyễn Văn Mạnh",
+      "test_scores": 9.63,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.8,
+      "access_count": 87,
+      "max_access_count": 100,
+      "study_time_minutes": 768.24,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001375": {
+    "username": "122001375",
+    "student_id": "122001375",
+    "name": "Chu Đình Đạt",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001375",
+      "full_name": "Chu Đình Đạt",
+      "test_scores": 9.21,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.87,
+      "access_count": 89,
+      "max_access_count": 100,
+      "study_time_minutes": 715.83,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000587": {
+    "username": "122000587",
+    "student_id": "122000587",
+    "name": "Lê Hồng Phúc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000587",
+      "full_name": "Lê Hồng Phúc",
+      "test_scores": 9.53,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.93,
+      "access_count": 69,
+      "max_access_count": 100,
+      "study_time_minutes": 729.57,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000441": {
+    "username": "122000441",
+    "student_id": "122000441",
+    "name": "Lương Văn Thanh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000441",
+      "full_name": "Lương Văn Thanh",
+      "test_scores": 7.92,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.94,
+      "access_count": 93,
+      "max_access_count": 100,
+      "study_time_minutes": 780.47,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001384": {
+    "username": "122001384",
+    "student_id": "122001384",
+    "name": "Lê Trần Mai Thy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001384",
+      "full_name": "Lê Trần Mai Thy",
+      "test_scores": 7.54,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.9,
+      "access_count": 96,
+      "max_access_count": 100,
+      "study_time_minutes": 860.41,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000286": {
+    "username": "122000286",
+    "student_id": "122000286",
+    "name": "Phạm Khánh Minh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000286",
+      "full_name": "Phạm Khánh Minh",
+      "test_scores": 8.58,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.86,
+      "access_count": 98,
+      "max_access_count": 100,
+      "study_time_minutes": 700.38,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000549": {
+    "username": "122000549",
+    "student_id": "122000549",
+    "name": "Huỳnh Tấn Đức",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000549",
+      "full_name": "Huỳnh Tấn Đức",
+      "test_scores": 8.87,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.96,
+      "access_count": 54,
+      "max_access_count": 100,
+      "study_time_minutes": 898.24,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000460": {
+    "username": "122000460",
+    "student_id": "122000460",
+    "name": "Trần Văn Bình",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000460",
+      "full_name": "Trần Văn Bình",
+      "test_scores": 8.92,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.94,
+      "access_count": 88,
+      "max_access_count": 100,
+      "study_time_minutes": 568.19,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001416": {
+    "username": "122001416",
+    "student_id": "122001416",
+    "name": "Vũ Quốc Nghĩa",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001416",
+      "full_name": "Vũ Quốc Nghĩa",
+      "test_scores": 8.08,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.96,
+      "access_count": 74,
+      "max_access_count": 100,
+      "study_time_minutes": 841.49,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001446": {
+    "username": "122001446",
+    "student_id": "122001446",
+    "name": "Phan Thành Long",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001446",
+      "full_name": "Phan Thành Long",
+      "test_scores": 8.73,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.81,
+      "access_count": 96,
+      "max_access_count": 100,
+      "study_time_minutes": 691.95,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000648": {
+    "username": "122000648",
+    "student_id": "122000648",
+    "name": "Trần Tuyết Nhung",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000648",
+      "full_name": "Trần Tuyết Nhung",
+      "test_scores": 8.48,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.8,
+      "access_count": 92,
+      "max_access_count": 100,
+      "study_time_minutes": 789.82,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000827": {
+    "username": "122000827",
+    "student_id": "122000827",
+    "name": "Phùng Thái Sơn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000827",
+      "full_name": "Phùng Thái Sơn",
+      "test_scores": 8.52,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.98,
+      "access_count": 62,
+      "max_access_count": 100,
+      "study_time_minutes": 766.29,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001043": {
+    "username": "122001043",
+    "student_id": "122001043",
+    "name": "Lê Thị Minh Nguyệt",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001043",
+      "full_name": "Lê Thị Minh Nguyệt",
+      "test_scores": 7.82,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.97,
+      "access_count": 83,
+      "max_access_count": 100,
+      "study_time_minutes": 704.37,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001394": {
+    "username": "122001394",
+    "student_id": "122001394",
+    "name": "Phạm Trí Khiêm",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001394",
+      "full_name": "Phạm Trí Khiêm",
+      "test_scores": 9.53,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.74,
+      "access_count": 90,
+      "max_access_count": 100,
+      "study_time_minutes": 875.25,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000472": {
+    "username": "122000472",
+    "student_id": "122000472",
+    "name": "Lê Phúc Hậu",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000472",
+      "full_name": "Lê Phúc Hậu",
+      "test_scores": 9.79,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.87,
+      "access_count": 57,
+      "max_access_count": 100,
+      "study_time_minutes": 738.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001215": {
+    "username": "122001215",
+    "student_id": "122001215",
+    "name": "Phạm Tùng Dương",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001215",
+      "full_name": "Phạm Tùng Dương",
+      "test_scores": 8.85,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.81,
+      "access_count": 73,
+      "max_access_count": 100,
+      "study_time_minutes": 860.26,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001497": {
+    "username": "122001497",
+    "student_id": "122001497",
+    "name": "Nguyễn Nhựt Hào",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001497",
+      "full_name": "Nguyễn Nhựt Hào",
+      "test_scores": 9.73,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 57,
+      "max_access_count": 100,
+      "study_time_minutes": 711.8,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001493": {
+    "username": "122001493",
+    "student_id": "122001493",
+    "name": "Nguyễn Hoàng Phước",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001493",
+      "full_name": "Nguyễn Hoàng Phước",
+      "test_scores": 8.7,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.91,
+      "access_count": 76,
+      "max_access_count": 100,
+      "study_time_minutes": 672.85,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001473": {
+    "username": "122001473",
+    "student_id": "122001473",
+    "name": "Trần Đình Phúc Đức",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001473",
+      "full_name": "Trần Đình Phúc Đức",
+      "test_scores": 8.37,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 64,
+      "max_access_count": 100,
+      "study_time_minutes": 898.65,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001383": {
+    "username": "122001383",
+    "student_id": "122001383",
+    "name": "Phan Đức Thọ",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001383",
+      "full_name": "Phan Đức Thọ",
+      "test_scores": 8.42,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 84,
+      "max_access_count": 100,
+      "study_time_minutes": 674.43,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001549": {
+    "username": "122001549",
+    "student_id": "122001549",
+    "name": "Châu Gia Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001549",
+      "full_name": "Châu Gia Huy",
+      "test_scores": 9.37,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.71,
+      "access_count": 91,
+      "max_access_count": 100,
+      "study_time_minutes": 885.62,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000476": {
+    "username": "122000476",
+    "student_id": "122000476",
+    "name": "Nguyễn Đăng Thanh Nhã",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000476",
+      "full_name": "Nguyễn Đăng Thanh Nhã",
+      "test_scores": 8.05,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 79,
+      "max_access_count": 100,
+      "study_time_minutes": 777.41,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001459": {
+    "username": "122001459",
+    "student_id": "122001459",
+    "name": "Cao Lê Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001459",
+      "full_name": "Cao Lê Huy",
+      "test_scores": 9.22,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.87,
+      "access_count": 78,
+      "max_access_count": 100,
+      "study_time_minutes": 575.84,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001005": {
+    "username": "122001005",
+    "student_id": "122001005",
+    "name": "Đinh Tâm Thảo",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001005",
+      "full_name": "Đinh Tâm Thảo",
+      "test_scores": 9.76,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.72,
+      "access_count": 75,
+      "max_access_count": 100,
+      "study_time_minutes": 934.15,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001353": {
+    "username": "122001353",
+    "student_id": "122001353",
+    "name": "Tạ Thị Ngọc Yến",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001353",
+      "full_name": "Tạ Thị Ngọc Yến",
+      "test_scores": 8.87,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.82,
+      "access_count": 79,
+      "max_access_count": 100,
+      "study_time_minutes": 681.38,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001259": {
+    "username": "122001259",
+    "student_id": "122001259",
+    "name": "Vũ Quốc Đạt",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001259",
+      "full_name": "Vũ Quốc Đạt",
+      "test_scores": 8.61,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.98,
+      "access_count": 51,
+      "max_access_count": 100,
+      "study_time_minutes": 732.85,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000284": {
+    "username": "122000284",
+    "student_id": "122000284",
+    "name": "Phạm Duy Kiên",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000284",
+      "full_name": "Phạm Duy Kiên",
+      "test_scores": 9.4,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.8,
+      "access_count": 79,
+      "max_access_count": 100,
+      "study_time_minutes": 595.34,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000188": {
+    "username": "122000188",
+    "student_id": "122000188",
+    "name": "Trần Lữ Long Vân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000188",
+      "full_name": "Trần Lữ Long Vân",
+      "test_scores": 8.75,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.83,
+      "access_count": 51,
+      "max_access_count": 100,
+      "study_time_minutes": 955.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001333": {
+    "username": "122001333",
+    "student_id": "122001333",
+    "name": "Vũ Hoàng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001333",
+      "full_name": "Vũ Hoàng",
+      "test_scores": 7.27,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.86,
+      "access_count": 74,
+      "max_access_count": 100,
+      "study_time_minutes": 945.26,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000438": {
+    "username": "122000438",
+    "student_id": "122000438",
+    "name": "Nguyễn Trương Hoàng Khang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000438",
+      "full_name": "Nguyễn Trương Hoàng Khang",
+      "test_scores": 7.34,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.9,
+      "access_count": 83,
+      "max_access_count": 100,
+      "study_time_minutes": 738.11,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000755": {
+    "username": "122000755",
+    "student_id": "122000755",
+    "name": "Nguyễn Duy Độ",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000755",
+      "full_name": "Nguyễn Duy Độ",
+      "test_scores": 8.3,
+      "max_test_score": 10,
+      "assignment_completion_rate": 1.0,
+      "access_count": 100,
+      "max_access_count": 100,
+      "study_time_minutes": 800.0,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000260": {
+    "username": "122000260",
+    "student_id": "122000260",
+    "name": "Nguyễn Vũ Minh Triết",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000260",
+      "full_name": "Nguyễn Vũ Minh Triết",
+      "test_scores": 8.9,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.92,
+      "access_count": 70,
+      "max_access_count": 100,
+      "study_time_minutes": 513.27,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000708": {
+    "username": "122000708",
+    "student_id": "122000708",
+    "name": "Nguyễn Văn Đức Trọng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000708",
+      "full_name": "Nguyễn Văn Đức Trọng",
+      "test_scores": 8.92,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.75,
+      "access_count": 74,
+      "max_access_count": 100,
+      "study_time_minutes": 948.39,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001256": {
+    "username": "122001256",
+    "student_id": "122001256",
+    "name": "Nguyễn Thành Vinh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001256",
+      "full_name": "Nguyễn Thành Vinh",
+      "test_scores": 8.01,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.95,
+      "access_count": 52,
+      "max_access_count": 100,
+      "study_time_minutes": 795.15,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001008": {
+    "username": "122001008",
+    "student_id": "122001008",
+    "name": "Nguyễn Minh Thuận",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001008",
+      "full_name": "Nguyễn Minh Thuận",
+      "test_scores": 7.47,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.91,
+      "access_count": 78,
+      "max_access_count": 100,
+      "study_time_minutes": 703.99,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000611": {
+    "username": "122000611",
+    "student_id": "122000611",
+    "name": "Đinh Thị Thanh Hương",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000611",
+      "full_name": "Đinh Thị Thanh Hương",
+      "test_scores": 8.51,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.88,
+      "access_count": 62,
+      "max_access_count": 100,
+      "study_time_minutes": 698.66,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001433": {
+    "username": "122001433",
+    "student_id": "122001433",
+    "name": "Nguyễn Văn Đại",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001433",
+      "full_name": "Nguyễn Văn Đại",
+      "test_scores": 7.85,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.81,
+      "access_count": 75,
+      "max_access_count": 100,
+      "study_time_minutes": 803.78,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001407": {
+    "username": "122001407",
+    "student_id": "122001407",
+    "name": "Nguyễn Ngọc Tuấn Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001407",
+      "full_name": "Nguyễn Ngọc Tuấn Anh",
+      "test_scores": 9.48,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.76,
+      "access_count": 68,
+      "max_access_count": 100,
+      "study_time_minutes": 832.6,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001526": {
+    "username": "122001526",
+    "student_id": "122001526",
+    "name": "Lồng Khánh Hòa",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001526",
+      "full_name": "Lồng Khánh Hòa",
+      "test_scores": 7.83,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.77,
+      "access_count": 99,
+      "max_access_count": 100,
+      "study_time_minutes": 831.77,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000416": {
+    "username": "122000416",
+    "student_id": "122000416",
+    "name": "Nguyễn Hữu Lộc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000416",
+      "full_name": "Nguyễn Hữu Lộc",
+      "test_scores": 8.42,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.87,
+      "access_count": 67,
+      "max_access_count": 100,
+      "study_time_minutes": 647.02,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000752": {
+    "username": "122000752",
+    "student_id": "122000752",
+    "name": "Nguyễn Tùng Lân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000752",
+      "full_name": "Nguyễn Tùng Lân",
+      "test_scores": 9.0,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.75,
+      "access_count": 68,
+      "max_access_count": 100,
+      "study_time_minutes": 910.9,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000253": {
+    "username": "122000253",
+    "student_id": "122000253",
+    "name": "Nguyễn Đoàn Nhật Minh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000253",
+      "full_name": "Nguyễn Đoàn Nhật Minh",
+      "test_scores": 7.02,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.99,
+      "access_count": 79,
+      "max_access_count": 100,
+      "study_time_minutes": 585.44,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000496": {
+    "username": "122000496",
+    "student_id": "122000496",
+    "name": "Lê An",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000496",
+      "full_name": "Lê An",
+      "test_scores": 7.62,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.99,
+      "access_count": 53,
+      "max_access_count": 100,
+      "study_time_minutes": 712.72,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "121000551": {
+    "username": "121000551",
+    "student_id": "121000551",
+    "name": "Nguyễn Trọng Hiếu Đức",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "121000551",
+      "full_name": "Nguyễn Trọng Hiếu Đức",
+      "test_scores": 8.1,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.85,
+      "access_count": 79,
+      "max_access_count": 100,
+      "study_time_minutes": 593.28,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000192": {
+    "username": "122000192",
+    "student_id": "122000192",
+    "name": "Trần Nguyễn An",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000192",
+      "full_name": "Trần Nguyễn An",
+      "test_scores": 7.52,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.97,
+      "access_count": 52,
+      "max_access_count": 100,
+      "study_time_minutes": 762.26,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001471": {
+    "username": "122001471",
+    "student_id": "122001471",
+    "name": "Nguyễn Thị Tường Vy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001471",
+      "full_name": "Nguyễn Thị Tường Vy",
+      "test_scores": 7.75,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.92,
+      "access_count": 53,
+      "max_access_count": 100,
+      "study_time_minutes": 784.94,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001286": {
+    "username": "122001286",
+    "student_id": "122001286",
+    "name": "Trần Đình Trường",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001286",
+      "full_name": "Trần Đình Trường",
+      "test_scores": 8.6,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.73,
+      "access_count": 87,
+      "max_access_count": 100,
+      "study_time_minutes": 766.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001545": {
+    "username": "122001545",
+    "student_id": "122001545",
+    "name": "Lê Đức Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001545",
+      "full_name": "Lê Đức Huy",
+      "test_scores": 8.49,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.8,
+      "access_count": 82,
+      "max_access_count": 100,
+      "study_time_minutes": 503.77,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000456": {
+    "username": "122000456",
+    "student_id": "122000456",
+    "name": "Nguyễn Quý Hoàng Long",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000456",
+      "full_name": "Nguyễn Quý Hoàng Long",
+      "test_scores": 8.21,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.74,
+      "access_count": 96,
+      "max_access_count": 100,
+      "study_time_minutes": 710.27,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000705": {
+    "username": "122000705",
+    "student_id": "122000705",
+    "name": "Nguyễn Hữu Phúc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000705",
+      "full_name": "Nguyễn Hữu Phúc",
+      "test_scores": 8.61,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.84,
+      "access_count": 65,
+      "max_access_count": 100,
+      "study_time_minutes": 575.95,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001411": {
+    "username": "122001411",
+    "student_id": "122001411",
+    "name": "Đỗ Đặng Thùy Trang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001411",
+      "full_name": "Đỗ Đặng Thùy Trang",
+      "test_scores": 9.0,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.76,
+      "access_count": 80,
+      "max_access_count": 100,
+      "study_time_minutes": 662.0,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000293": {
+    "username": "122000293",
+    "student_id": "122000293",
+    "name": "Nguyễn Thái Thanh Bình",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000293",
+      "full_name": "Nguyễn Thái Thanh Bình",
+      "test_scores": 9.23,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.76,
+      "access_count": 75,
+      "max_access_count": 100,
+      "study_time_minutes": 666.75,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000203": {
+    "username": "122000203",
+    "student_id": "122000203",
+    "name": "Trần Thị Như Quỳnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000203",
+      "full_name": "Trần Thị Như Quỳnh",
+      "test_scores": 9.95,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.73,
+      "access_count": 51,
+      "max_access_count": 100,
+      "study_time_minutes": 788.0,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001299": {
+    "username": "122001299",
+    "student_id": "122001299",
+    "name": "Vũ Văn Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001299",
+      "full_name": "Vũ Văn Huy",
+      "test_scores": 7.81,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.81,
+      "access_count": 59,
+      "max_access_count": 100,
+      "study_time_minutes": 781.98,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000056": {
+    "username": "122000056",
+    "student_id": "122000056",
+    "name": "Nguyễn Mai Minh Hoàng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000056",
+      "full_name": "Nguyễn Mai Minh Hoàng",
+      "test_scores": 9.88,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.74,
+      "access_count": 71,
+      "max_access_count": 100,
+      "study_time_minutes": 542.67,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001389": {
+    "username": "122001389",
+    "student_id": "122001389",
+    "name": "Tạ Hảo Nguyên",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001389",
+      "full_name": "Tạ Hảo Nguyên",
+      "test_scores": 7.62,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.81,
+      "access_count": 50,
+      "max_access_count": 100,
+      "study_time_minutes": 870.56,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001458": {
+    "username": "122001458",
+    "student_id": "122001458",
+    "name": "Bùi Minh Cường",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001458",
+      "full_name": "Bùi Minh Cường",
+      "test_scores": 8.0,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.74,
+      "access_count": 64,
+      "max_access_count": 100,
+      "study_time_minutes": 939.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001605": {
+    "username": "122001605",
+    "student_id": "122001605",
+    "name": "Nguyễn Võ Quốc Bảo",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001605",
+      "full_name": "Nguyễn Võ Quốc Bảo",
+      "test_scores": 8.5,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.75,
+      "access_count": 90,
+      "max_access_count": 100,
+      "study_time_minutes": 700,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0,
+      "submission_timing": 5.0
+    }
+  },
+  "122000702": {
+    "username": "122000702",
+    "student_id": "122000702",
+    "name": "Lê Anh Dũng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000702",
+      "full_name": "Lê Anh Dũng",
+      "test_scores": 7.73,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.73,
+      "access_count": 75,
+      "max_access_count": 100,
+      "study_time_minutes": 883.89,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001128": {
+    "username": "122001128",
+    "student_id": "122001128",
+    "name": "Phạm Hữu Phước",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001128",
+      "full_name": "Phạm Hữu Phước",
+      "test_scores": 9.05,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.73,
+      "access_count": 86,
+      "max_access_count": 100,
+      "study_time_minutes": 501.36,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000728": {
+    "username": "122000728",
+    "student_id": "122000728",
+    "name": "Biện Lê Bảo Hân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000728",
+      "full_name": "Biện Lê Bảo Hân",
+      "test_scores": 8.73,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.75,
+      "access_count": 73,
+      "max_access_count": 100,
+      "study_time_minutes": 655.74,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001541": {
+    "username": "122001541",
+    "student_id": "122001541",
+    "name": "Đậu Minh Tuấn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001541",
+      "full_name": "Đậu Minh Tuấn",
+      "test_scores": 7.05,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.96,
+      "access_count": 61,
+      "max_access_count": 100,
+      "study_time_minutes": 551.11,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000829": {
+    "username": "122000829",
+    "student_id": "122000829",
+    "name": "Trịnh Huỳnh Thừa Khang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000829",
+      "full_name": "Trịnh Huỳnh Thừa Khang",
+      "test_scores": 7.62,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.81,
+      "access_count": 63,
+      "max_access_count": 100,
+      "study_time_minutes": 665.05,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122000990": {
+    "username": "122000990",
+    "student_id": "122000990",
+    "name": "Mai Trường Sơn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000990",
+      "full_name": "Mai Trường Sơn",
+      "test_scores": 8.01,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.74,
+      "access_count": 72,
+      "max_access_count": 100,
+      "study_time_minutes": 774.46,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001002": {
+    "username": "122001002",
+    "student_id": "122001002",
+    "name": "Nguyễn Phong Thịnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001002",
+      "full_name": "Nguyễn Phong Thịnh",
+      "test_scores": 7.28,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.84,
+      "access_count": 71,
+      "max_access_count": 100,
+      "study_time_minutes": 540.88,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001481": {
+    "username": "122001481",
+    "student_id": "122001481",
+    "name": "Lương Đức Mạnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001481",
+      "full_name": "Lương Đức Mạnh",
+      "test_scores": 7.69,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.92,
+      "access_count": 51,
+      "max_access_count": 100,
+      "study_time_minutes": 506.1,
+      "max_study_time": 1000,
+      "submission_timing_score": 2.0
+    }
+  },
+  "122001599": {
+    "username": "122001599",
+    "student_id": "122001599",
+    "name": "Bùi Bảo Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001599",
+      "full_name": "Bùi Bảo Anh",
+      "test_scores": 7.21,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.72,
+      "access_count": 63,
+      "max_access_count": 100,
+      "study_time_minutes": 967.18,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001254": {
+    "username": "122001254",
+    "student_id": "122001254",
+    "name": "Nguyễn Việt Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001254",
+      "full_name": "Nguyễn Việt Anh",
+      "test_scores": 7.44,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.74,
+      "access_count": 52,
+      "max_access_count": 100,
+      "study_time_minutes": 947.6,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001006": {
+    "username": "122001006",
+    "student_id": "122001006",
+    "name": "Trần Thị Lan Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001006",
+      "full_name": "Trần Thị Lan Anh",
+      "test_scores": 8.35,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.73,
+      "access_count": 70,
+      "max_access_count": 100,
+      "study_time_minutes": 582.76,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000406": {
+    "username": "122000406",
+    "student_id": "122000406",
+    "name": "Nguyễn Hoàng Phương Ngân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000406",
+      "full_name": "Nguyễn Hoàng Phương Ngân",
+      "test_scores": 7.47,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.75,
+      "access_count": 78,
+      "max_access_count": 100,
+      "study_time_minutes": 537.75,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000273": {
+    "username": "122000273",
+    "student_id": "122000273",
+    "name": "Dương Đình Đăng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000273",
+      "full_name": "Dương Đình Đăng",
+      "test_scores": 8.2,
+      "max_test_score": 10,
+      "assignment_completion_rate": 1.0,
+      "access_count": 80,
+      "max_access_count": 100,
+      "study_time_minutes": 300.0,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000859": {
+    "username": "122000859",
+    "student_id": "122000859",
+    "name": "Vi Hoài Thương",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000859",
+      "full_name": "Vi Hoài Thương",
+      "test_scores": 7.76,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.76,
+      "access_count": 57,
+      "max_access_count": 100,
+      "study_time_minutes": 552.05,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000776": {
+    "username": "122000776",
+    "student_id": "122000776",
+    "name": "Trần Tuấn Lương",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000776",
+      "full_name": "Trần Tuấn Lương",
+      "test_scores": 8.04,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.71,
+      "access_count": 55,
+      "max_access_count": 100,
+      "study_time_minutes": 560.32,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001179": {
+    "username": "122001179",
+    "student_id": "122001179",
+    "name": "Đỗ Xuân Hạnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001179",
+      "full_name": "Đỗ Xuân Hạnh",
+      "test_scores": 6.89,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.61,
+      "access_count": 50,
+      "max_access_count": 100,
+      "study_time_minutes": 598.33,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000810": {
+    "username": "122000810",
+    "student_id": "122000810",
+    "name": "Nguyễn Văn Minh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000810",
+      "full_name": "Nguyễn Văn Minh",
+      "test_scores": 6.06,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.69,
+      "access_count": 50,
+      "max_access_count": 100,
+      "study_time_minutes": 580.24,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000082": {
+    "username": "122000082",
+    "student_id": "122000082",
+    "name": "Nguyễn Hoàng Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000082",
+      "full_name": "Nguyễn Hoàng Huy",
+      "test_scores": 7.85,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.62,
+      "access_count": 44,
+      "max_access_count": 100,
+      "study_time_minutes": 367.3,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000282": {
+    "username": "122000282",
+    "student_id": "122000282",
+    "name": "Quách Đình Thái",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000282",
+      "full_name": "Quách Đình Thái",
+      "test_scores": 7.99,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.57,
+      "access_count": 56,
+      "max_access_count": 100,
+      "study_time_minutes": 490.45,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000564": {
+    "username": "122000564",
+    "student_id": "122000564",
+    "name": "Nguyễn Thành Nhân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000564",
+      "full_name": "Nguyễn Thành Nhân",
+      "test_scores": 6.89,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.66,
+      "access_count": 55,
+      "max_access_count": 100,
+      "study_time_minutes": 367.18,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000240": {
+    "username": "122000240",
+    "student_id": "122000240",
+    "name": "Võ Thành Phát",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000240",
+      "full_name": "Võ Thành Phát",
+      "test_scores": 7.53,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.65,
+      "access_count": 53,
+      "max_access_count": 100,
+      "study_time_minutes": 214.73,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000338": {
+    "username": "122000338",
+    "student_id": "122000338",
+    "name": "Đặng Trần Nguyên Khang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000338",
+      "full_name": "Đặng Trần Nguyên Khang",
+      "test_scores": 7.82,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.57,
+      "access_count": 54,
+      "max_access_count": 100,
+      "study_time_minutes": 457.32,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001209": {
+    "username": "122001209",
+    "student_id": "122001209",
+    "name": "Lê Quốc Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001209",
+      "full_name": "Lê Quốc Anh",
+      "test_scores": 7.6,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.67,
+      "access_count": 26,
+      "max_access_count": 100,
+      "study_time_minutes": 400.61,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "121001164": {
+    "username": "121001164",
+    "student_id": "121001164",
+    "name": "Nguyễn Thành Trung",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "121001164",
+      "full_name": "Nguyễn Thành Trung",
+      "test_scores": 7.96,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.61,
+      "access_count": 36,
+      "max_access_count": 100,
+      "study_time_minutes": 311.91,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000942": {
+    "username": "122000942",
+    "student_id": "122000942",
+    "name": "Trịnh Khôi",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000942",
+      "full_name": "Trịnh Khôi",
+      "test_scores": 7.6,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.65,
+      "access_count": 32,
+      "max_access_count": 100,
+      "study_time_minutes": 289.03,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000401": {
+    "username": "122000401",
+    "student_id": "122000401",
+    "name": "Vương Hoàng Nam",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000401",
+      "full_name": "Vương Hoàng Nam",
+      "test_scores": 6.64,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.68,
+      "access_count": 22,
+      "max_access_count": 100,
+      "study_time_minutes": 528.17,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000860": {
+    "username": "122000860",
+    "student_id": "122000860",
+    "name": "Trần Trọng Thuận",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000860",
+      "full_name": "Trần Trọng Thuận",
+      "test_scores": 6.64,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.61,
+      "access_count": 31,
+      "max_access_count": 100,
+      "study_time_minutes": 475.21,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000821": {
+    "username": "122000821",
+    "student_id": "122000821",
+    "name": "Nguyễn Khánh Duy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000821",
+      "full_name": "Nguyễn Khánh Duy",
+      "test_scores": 5.64,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.68,
+      "access_count": 35,
+      "max_access_count": 100,
+      "study_time_minutes": 515.85,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001155": {
+    "username": "122001155",
+    "student_id": "122001155",
+    "name": "Đinh Ngọc Quang Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001155",
+      "full_name": "Đinh Ngọc Quang Huy",
+      "test_scores": 7.76,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.48,
+      "access_count": 38,
+      "max_access_count": 100,
+      "study_time_minutes": 587.72,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000798": {
+    "username": "122000798",
+    "student_id": "122000798",
+    "name": "Trần Cẩm Ly",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000798",
+      "full_name": "Trần Cẩm Ly",
+      "test_scores": 7.69,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.52,
+      "access_count": 31,
+      "max_access_count": 100,
+      "study_time_minutes": 583.42,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000053": {
+    "username": "122000053",
+    "student_id": "122000053",
+    "name": "Lâm Manh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000053",
+      "full_name": "Lâm Manh",
+      "test_scores": 7.23,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.48,
+      "access_count": 45,
+      "max_access_count": 100,
+      "study_time_minutes": 585.06,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001280": {
+    "username": "122001280",
+    "student_id": "122001280",
+    "name": "Nguyễn Đình Phát",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001280",
+      "full_name": "Nguyễn Đình Phát",
+      "test_scores": 5.11,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.65,
+      "access_count": 56,
+      "max_access_count": 100,
+      "study_time_minutes": 408.9,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000223": {
+    "username": "122000223",
+    "student_id": "122000223",
+    "name": "Đinh Huỳnh Hữu Phước",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000223",
+      "full_name": "Đinh Huỳnh Hữu Phước",
+      "test_scores": 7.96,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.51,
+      "access_count": 45,
+      "max_access_count": 100,
+      "study_time_minutes": 352.36,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000814": {
+    "username": "122000814",
+    "student_id": "122000814",
+    "name": "Nguyễn Thành Tài",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000814",
+      "full_name": "Nguyễn Thành Tài",
+      "test_scores": 6.9,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.53,
+      "access_count": 54,
+      "max_access_count": 100,
+      "study_time_minutes": 440.98,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001281": {
+    "username": "122001281",
+    "student_id": "122001281",
+    "name": "Bùi Ngọc Sơn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001281",
+      "full_name": "Bùi Ngọc Sơn",
+      "test_scores": 7.67,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.54,
+      "access_count": 47,
+      "max_access_count": 100,
+      "study_time_minutes": 334.26,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001087": {
+    "username": "122001087",
+    "student_id": "122001087",
+    "name": "Bùi Hữu Thắng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001087",
+      "full_name": "Bùi Hữu Thắng",
+      "test_scores": 6.95,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.62,
+      "access_count": 32,
+      "max_access_count": 100,
+      "study_time_minutes": 295.0,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000102": {
+    "username": "122000102",
+    "student_id": "122000102",
+    "name": "Nguyễn Cao Đức Bình",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000102",
+      "full_name": "Nguyễn Cao Đức Bình",
+      "test_scores": 7.6,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.41,
+      "access_count": 52,
+      "max_access_count": 100,
+      "study_time_minutes": 511.04,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001039": {
+    "username": "122001039",
+    "student_id": "122001039",
+    "name": "Võ Ngọc Hòa",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001039",
+      "full_name": "Võ Ngọc Hòa",
+      "test_scores": 7.26,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.51,
+      "access_count": 50,
+      "max_access_count": 100,
+      "study_time_minutes": 392.67,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000391": {
+    "username": "122000391",
+    "student_id": "122000391",
+    "name": "Phạm Minh Tuấn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000391",
+      "full_name": "Phạm Minh Tuấn",
+      "test_scores": 6.82,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 59,
+      "max_access_count": 100,
+      "study_time_minutes": 447.25,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001210": {
+    "username": "122001210",
+    "student_id": "122001210",
+    "name": "Lê Quốc Bảo",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001210",
+      "full_name": "Lê Quốc Bảo",
+      "test_scores": 6.95,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.61,
+      "access_count": 35,
+      "max_access_count": 100,
+      "study_time_minutes": 220.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000661": {
+    "username": "122000661",
+    "student_id": "122000661",
+    "name": "Trần Đức Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000661",
+      "full_name": "Trần Đức Huy",
+      "test_scores": 6.64,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.53,
+      "access_count": 43,
+      "max_access_count": 100,
+      "study_time_minutes": 522.73,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000220": {
+    "username": "122000220",
+    "student_id": "122000220",
+    "name": "Bùi Hữu Phước",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000220",
+      "full_name": "Bùi Hữu Phước",
+      "test_scores": 5.93,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.69,
+      "access_count": 24,
+      "max_access_count": 100,
+      "study_time_minutes": 389.67,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000309": {
+    "username": "122000309",
+    "student_id": "122000309",
+    "name": "Nguyễn Lê Hoàng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000309",
+      "full_name": "Nguyễn Lê Hoàng",
+      "test_scores": 6.85,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.68,
+      "access_count": 21,
+      "max_access_count": 100,
+      "study_time_minutes": 210.6,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000275": {
+    "username": "122000275",
+    "student_id": "122000275",
+    "name": "Nguyễn Nguyên Hoàng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000275",
+      "full_name": "Nguyễn Nguyên Hoàng",
+      "test_scores": 5.14,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.68,
+      "access_count": 55,
+      "max_access_count": 100,
+      "study_time_minutes": 218.12,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000725": {
+    "username": "122000725",
+    "student_id": "122000725",
+    "name": "Phan Hoàng Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000725",
+      "full_name": "Phan Hoàng Anh",
+      "test_scores": 6.24,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.51,
+      "access_count": 58,
+      "max_access_count": 100,
+      "study_time_minutes": 432.22,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000227": {
+    "username": "122000227",
+    "student_id": "122000227",
+    "name": "Tạ Ngọc Chương",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000227",
+      "full_name": "Tạ Ngọc Chương",
+      "test_scores": 6.47,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.54,
+      "access_count": 52,
+      "max_access_count": 100,
+      "study_time_minutes": 385.87,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000426": {
+    "username": "122000426",
+    "student_id": "122000426",
+    "name": "Nguyễn Văn Hậu",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000426",
+      "full_name": "Nguyễn Văn Hậu",
+      "test_scores": 5.28,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.6,
+      "access_count": 36,
+      "max_access_count": 100,
+      "study_time_minutes": 462.29,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122000796": {
+    "username": "122000796",
+    "student_id": "122000796",
+    "name": "Trần Tấn Đạt",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000796",
+      "full_name": "Trần Tấn Đạt",
+      "test_scores": 6.13,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.56,
+      "access_count": 39,
+      "max_access_count": 100,
+      "study_time_minutes": 530.58,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001249": {
+    "username": "122001249",
+    "student_id": "122001249",
+    "name": "Phạm Hoàng Thiện",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001249",
+      "full_name": "Phạm Hoàng Thiện",
+      "test_scores": 6.15,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.62,
+      "access_count": 30,
+      "max_access_count": 100,
+      "study_time_minutes": 312.39,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001277": {
+    "username": "122001277",
+    "student_id": "122001277",
+    "name": "Hoàng Gia Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001277",
+      "full_name": "Hoàng Gia Huy",
+      "test_scores": 6.4,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.56,
+      "access_count": 41,
+      "max_access_count": 100,
+      "study_time_minutes": 436.33,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "121001309": {
+    "username": "121001309",
+    "student_id": "121001309",
+    "name": "Hà Lê Gia Bảo",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "121001309",
+      "full_name": "Hà Lê Gia Bảo",
+      "test_scores": 6.81,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.48,
+      "access_count": 32,
+      "max_access_count": 100,
+      "study_time_minutes": 564.37,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000973": {
+    "username": "122000973",
+    "student_id": "122000973",
+    "name": "Phạm Trần Anh Tú",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000973",
+      "full_name": "Phạm Trần Anh Tú",
+      "test_scores": 6.12,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.51,
+      "access_count": 36,
+      "max_access_count": 100,
+      "study_time_minutes": 578.9,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000971": {
+    "username": "122000971",
+    "student_id": "122000971",
+    "name": "Nguyễn Trung Tài",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000971",
+      "full_name": "Nguyễn Trung Tài",
+      "test_scores": 7.68,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.44,
+      "access_count": 48,
+      "max_access_count": 100,
+      "study_time_minutes": 233.94,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001117": {
+    "username": "122001117",
+    "student_id": "122001117",
+    "name": "Nguyễn Văn Nam",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001117",
+      "full_name": "Nguyễn Văn Nam",
+      "test_scores": 5.04,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.69,
+      "access_count": 40,
+      "max_access_count": 100,
+      "study_time_minutes": 217.36,
+      "max_study_time": 1000,
+      "submission_timing_score": 4.0
+    }
+  },
+  "122001295": {
+    "username": "122001295",
+    "student_id": "122001295",
+    "name": "Đỗ Lê Thành Nhân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001295",
+      "full_name": "Đỗ Lê Thành Nhân",
+      "test_scores": 6.94,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.52,
+      "access_count": 47,
+      "max_access_count": 100,
+      "study_time_minutes": 231.09,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000749": {
+    "username": "122000749",
+    "student_id": "122000749",
+    "name": "Nguyễn Đặng Giang Trường",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000749",
+      "full_name": "Nguyễn Đặng Giang Trường",
+      "test_scores": 6.69,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 32,
+      "max_access_count": 100,
+      "study_time_minutes": 495.96,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000295": {
+    "username": "122000295",
+    "student_id": "122000295",
+    "name": "Đặng Hoàng Minh Quân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000295",
+      "full_name": "Đặng Hoàng Minh Quân",
+      "test_scores": 6.88,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.55,
+      "access_count": 20,
+      "max_access_count": 100,
+      "study_time_minutes": 415.75,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001257": {
+    "username": "122001257",
+    "student_id": "122001257",
+    "name": "Nguyễn Việt Hưng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001257",
+      "full_name": "Nguyễn Việt Hưng",
+      "test_scores": 5.08,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.57,
+      "access_count": 51,
+      "max_access_count": 100,
+      "study_time_minutes": 431.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001316": {
+    "username": "122001316",
+    "student_id": "122001316",
+    "name": "Nguyễn Anh Luân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001316",
+      "full_name": "Nguyễn Anh Luân",
+      "test_scores": 5.65,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.59,
+      "access_count": 23,
+      "max_access_count": 100,
+      "study_time_minutes": 536.81,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000042": {
+    "username": "122000042",
+    "student_id": "122000042",
+    "name": "Đinh Tấn Hùng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000042",
+      "full_name": "Đinh Tấn Hùng",
+      "test_scores": 6.55,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.5,
+      "access_count": 36,
+      "max_access_count": 100,
+      "study_time_minutes": 359.53,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000063": {
+    "username": "122000063",
+    "student_id": "122000063",
+    "name": "Bùi Kim Nhi",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000063",
+      "full_name": "Bùi Kim Nhi",
+      "test_scores": 7.09,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.52,
+      "access_count": 20,
+      "max_access_count": 100,
+      "study_time_minutes": 376.94,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001042": {
+    "username": "122001042",
+    "student_id": "122001042",
+    "name": "Trương Trung Tín",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001042",
+      "full_name": "Trương Trung Tín",
+      "test_scores": 7.12,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 38,
+      "max_access_count": 100,
+      "study_time_minutes": 244.48,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000156": {
+    "username": "122000156",
+    "student_id": "122000156",
+    "name": "Đinh Công Hiếu",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000156",
+      "full_name": "Đinh Công Hiếu",
+      "test_scores": 6.66,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.58,
+      "access_count": 22,
+      "max_access_count": 100,
+      "study_time_minutes": 299.09,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001109": {
+    "username": "122001109",
+    "student_id": "122001109",
+    "name": "Đỗ Viết Anh Tuấn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001109",
+      "full_name": "Đỗ Viết Anh Tuấn",
+      "test_scores": 6.43,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.42,
+      "access_count": 52,
+      "max_access_count": 100,
+      "study_time_minutes": 289.44,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000510": {
+    "username": "122000510",
+    "student_id": "122000510",
+    "name": "Nguyễn Hữu Nhật",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000510",
+      "full_name": "Nguyễn Hữu Nhật",
+      "test_scores": 7.04,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.5,
+      "access_count": 26,
+      "max_access_count": 100,
+      "study_time_minutes": 247.27,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000848": {
+    "username": "122000848",
+    "student_id": "122000848",
+    "name": "Hoàng Minh Hải",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000848",
+      "full_name": "Hoàng Minh Hải",
+      "test_scores": 6.48,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.42,
+      "access_count": 50,
+      "max_access_count": 100,
+      "study_time_minutes": 222.35,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000269": {
+    "username": "122000269",
+    "student_id": "122000269",
+    "name": "Trần Thế An",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000269",
+      "full_name": "Trần Thế An",
+      "test_scores": 5.04,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.42,
+      "access_count": 47,
+      "max_access_count": 100,
+      "study_time_minutes": 525.16,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000186": {
+    "username": "122000186",
+    "student_id": "122000186",
+    "name": "Vũ Nguyễn Quang Thiện",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000186",
+      "full_name": "Vũ Nguyễn Quang Thiện",
+      "test_scores": 7.27,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.4,
+      "access_count": 33,
+      "max_access_count": 100,
+      "study_time_minutes": 236.72,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000153": {
+    "username": "122000153",
+    "student_id": "122000153",
+    "name": "Lê Chí Tường",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000153",
+      "full_name": "Lê Chí Tường",
+      "test_scores": 5.28,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.45,
+      "access_count": 20,
+      "max_access_count": 100,
+      "study_time_minutes": 581.95,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001061": {
+    "username": "122001061",
+    "student_id": "122001061",
+    "name": "Phùng Mạnh Dũng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001061",
+      "full_name": "Phùng Mạnh Dũng",
+      "test_scores": 5.03,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.54,
+      "access_count": 39,
+      "max_access_count": 100,
+      "study_time_minutes": 247.53,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000292": {
+    "username": "122000292",
+    "student_id": "122000292",
+    "name": "Trương Thị Hải Yến",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000292",
+      "full_name": "Trương Thị Hải Yến",
+      "test_scores": 6.13,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 28,
+      "max_access_count": 100,
+      "study_time_minutes": 251.66,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000405": {
+    "username": "122000405",
+    "student_id": "122000405",
+    "name": "Phan Trần Trung Hiếu",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000405",
+      "full_name": "Phan Trần Trung Hiếu",
+      "test_scores": 5.62,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.48,
+      "access_count": 31,
+      "max_access_count": 100,
+      "study_time_minutes": 240.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000224": {
+    "username": "122000224",
+    "student_id": "122000224",
+    "name": "Trương Nguyên Giáp",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000224",
+      "full_name": "Trương Nguyên Giáp",
+      "test_scores": 5.85,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.49,
+      "access_count": 22,
+      "max_access_count": 100,
+      "study_time_minutes": 146.35,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000575": {
+    "username": "122000575",
+    "student_id": "122000575",
+    "name": "Nguyễn Doãn Minh Như",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000575",
+      "full_name": "Nguyễn Doãn Minh Như",
+      "test_scores": 5.69,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 27,
+      "max_access_count": 100,
+      "study_time_minutes": 134.76,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001361": {
+    "username": "122001361",
+    "student_id": "122001361",
+    "name": "Nguyễn Đức Phúc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001361",
+      "full_name": "Nguyễn Đức Phúc",
+      "test_scores": 5.92,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.49,
+      "access_count": 11,
+      "max_access_count": 100,
+      "study_time_minutes": 174.31,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000644": {
+    "username": "122000644",
+    "student_id": "122000644",
+    "name": "Võ Đại Nhân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000644",
+      "full_name": "Võ Đại Nhân",
+      "test_scores": 5.55,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.48,
+      "access_count": 8,
+      "max_access_count": 100,
+      "study_time_minutes": 274.64,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000584": {
+    "username": "122000584",
+    "student_id": "122000584",
+    "name": "Huỳnh Ngọc Nghị",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000584",
+      "full_name": "Huỳnh Ngọc Nghị",
+      "test_scores": 5.18,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 28,
+      "max_access_count": 100,
+      "study_time_minutes": 151.13,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000331": {
+    "username": "122000331",
+    "student_id": "122000331",
+    "name": "Nguyễn Thế Minh Thiện",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000331",
+      "full_name": "Nguyễn Thế Minh Thiện",
+      "test_scores": 5.13,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.44,
+      "access_count": 24,
+      "max_access_count": 100,
+      "study_time_minutes": 211.29,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000118": {
+    "username": "122000118",
+    "student_id": "122000118",
+    "name": "Nguyễn Khánh Tâm",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000118",
+      "full_name": "Nguyễn Khánh Tâm",
+      "test_scores": 4.47,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.5,
+      "access_count": 27,
+      "max_access_count": 100,
+      "study_time_minutes": 218.03,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000601": {
+    "username": "122000601",
+    "student_id": "122000601",
+    "name": "Nguyễn Tiến Trường",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000601",
+      "full_name": "Nguyễn Tiến Trường",
+      "test_scores": 5.08,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.46,
+      "access_count": 14,
+      "max_access_count": 100,
+      "study_time_minutes": 252.03,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000682": {
+    "username": "122000682",
+    "student_id": "122000682",
+    "name": "Nguyễn Tiến Phúc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000682",
+      "full_name": "Nguyễn Tiến Phúc",
+      "test_scores": 5.61,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.44,
+      "access_count": 16,
+      "max_access_count": 100,
+      "study_time_minutes": 154.13,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001144": {
+    "username": "122001144",
+    "student_id": "122001144",
+    "name": "Lê Hoàng Nguyên",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001144",
+      "full_name": "Lê Hoàng Nguyên",
+      "test_scores": 4.55,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.46,
+      "access_count": 21,
+      "max_access_count": 100,
+      "study_time_minutes": 262.17,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000385": {
+    "username": "122000385",
+    "student_id": "122000385",
+    "name": "Lê Nguyễn Minh Chiến",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000385",
+      "full_name": "Lê Nguyễn Minh Chiến",
+      "test_scores": 4.95,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.47,
+      "access_count": 13,
+      "max_access_count": 100,
+      "study_time_minutes": 205.82,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000002": {
+    "username": "122000002",
+    "student_id": "122000002",
+    "name": "Nguyễn Hoàng Quốc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000002",
+      "full_name": "Nguyễn Hoàng Quốc",
+      "test_scores": 4.12,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.49,
+      "access_count": 15,
+      "max_access_count": 100,
+      "study_time_minutes": 244.92,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000181": {
+    "username": "122000181",
+    "student_id": "122000181",
+    "name": "Vũ Văn Phú",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000181",
+      "full_name": "Vũ Văn Phú",
+      "test_scores": 4.2,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.44,
+      "access_count": 20,
+      "max_access_count": 100,
+      "study_time_minutes": 258.83,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000760": {
+    "username": "122000760",
+    "student_id": "122000760",
+    "name": "Phạm Bảo Minh Thế",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000760",
+      "full_name": "Phạm Bảo Minh Thế",
+      "test_scores": 5.23,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.42,
+      "access_count": 5,
+      "max_access_count": 100,
+      "study_time_minutes": 185.64,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000357": {
+    "username": "122000357",
+    "student_id": "122000357",
+    "name": "Trần Võ Quốc Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000357",
+      "full_name": "Trần Võ Quốc Huy",
+      "test_scores": 5.12,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.42,
+      "access_count": 5,
+      "max_access_count": 100,
+      "study_time_minutes": 201.49,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000598": {
+    "username": "122000598",
+    "student_id": "122000598",
+    "name": "Phạm Nguyễn Quốc Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000598",
+      "full_name": "Phạm Nguyễn Quốc Huy",
+      "test_scores": 4.23,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.43,
+      "access_count": 8,
+      "max_access_count": 100,
+      "study_time_minutes": 285.71,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000805": {
+    "username": "122000805",
+    "student_id": "122000805",
+    "name": "Nguyễn Hồng Phong",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000805",
+      "full_name": "Nguyễn Hồng Phong",
+      "test_scores": 5.72,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.33,
+      "access_count": 25,
+      "max_access_count": 100,
+      "study_time_minutes": 175.66,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000163": {
+    "username": "122000163",
+    "student_id": "122000163",
+    "name": "Trần Gia Huy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000163",
+      "full_name": "Trần Gia Huy",
+      "test_scores": 3.71,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.42,
+      "access_count": 28,
+      "max_access_count": 100,
+      "study_time_minutes": 167.58,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000326": {
+    "username": "122000326",
+    "student_id": "122000326",
+    "name": "Hàn Quốc Phú Hân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000326",
+      "full_name": "Hàn Quốc Phú Hân",
+      "test_scores": 5.24,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.36,
+      "access_count": 28,
+      "max_access_count": 100,
+      "study_time_minutes": 139.19,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000209": {
+    "username": "122000209",
+    "student_id": "122000209",
+    "name": "Lê Tuấn Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000209",
+      "full_name": "Lê Tuấn Anh",
+      "test_scores": 4.4,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.46,
+      "access_count": 11,
+      "max_access_count": 100,
+      "study_time_minutes": 92.63,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001208": {
+    "username": "122001208",
+    "student_id": "122001208",
+    "name": "Lê Trần Nam",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001208",
+      "full_name": "Lê Trần Nam",
+      "test_scores": 5.13,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.37,
+      "access_count": 14,
+      "max_access_count": 100,
+      "study_time_minutes": 252.34,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000421": {
+    "username": "122000421",
+    "student_id": "122000421",
+    "name": "Nguyễn Sơn Phi Hoàng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000421",
+      "full_name": "Nguyễn Sơn Phi Hoàng",
+      "test_scores": 5.07,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.32,
+      "access_count": 22,
+      "max_access_count": 100,
+      "study_time_minutes": 259.43,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000550": {
+    "username": "122000550",
+    "student_id": "122000550",
+    "name": "Tạ Ngọc Phi Phi",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000550",
+      "full_name": "Tạ Ngọc Phi Phi",
+      "test_scores": 5.45,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.37,
+      "access_count": 21,
+      "max_access_count": 100,
+      "study_time_minutes": 110.46,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000455": {
+    "username": "122000455",
+    "student_id": "122000455",
+    "name": "Nguyễn Trường Duy",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000455",
+      "full_name": "Nguyễn Trường Duy",
+      "test_scores": 5.28,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.37,
+      "access_count": 18,
+      "max_access_count": 100,
+      "study_time_minutes": 173.45,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000917": {
+    "username": "122000917",
+    "student_id": "122000917",
+    "name": "Hoàng Thanh Nhật",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000917",
+      "full_name": "Hoàng Thanh Nhật",
+      "test_scores": 3.05,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.48,
+      "access_count": 21,
+      "max_access_count": 100,
+      "study_time_minutes": 188.19,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122001021": {
+    "username": "122001021",
+    "student_id": "122001021",
+    "name": "Đinh Quang Tuấn Anh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001021",
+      "full_name": "Đinh Quang Tuấn Anh",
+      "test_scores": 5.94,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.22,
+      "access_count": 25,
+      "max_access_count": 100,
+      "study_time_minutes": 97.73,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000520": {
+    "username": "122000520",
+    "student_id": "122000520",
+    "name": "Phạm Gia Thoại",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000520",
+      "full_name": "Phạm Gia Thoại",
+      "test_scores": 4.43,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.37,
+      "access_count": 8,
+      "max_access_count": 100,
+      "study_time_minutes": 276.89,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000248": {
+    "username": "122000248",
+    "student_id": "122000248",
+    "name": "Lê Anh Khôi",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000248",
+      "full_name": "Lê Anh Khôi",
+      "test_scores": 4.56,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.36,
+      "access_count": 26,
+      "max_access_count": 100,
+      "study_time_minutes": 57.83,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000886": {
+    "username": "122000886",
+    "student_id": "122000886",
+    "name": "Chu Ngọc Sơn",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000886",
+      "full_name": "Chu Ngọc Sơn",
+      "test_scores": 4.94,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.25,
+      "access_count": 18,
+      "max_access_count": 100,
+      "study_time_minutes": 278.72,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000090": {
+    "username": "122000090",
+    "student_id": "122000090",
+    "name": "Nguyễn Trung Nghĩa",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000090",
+      "full_name": "Nguyễn Trung Nghĩa",
+      "test_scores": 3.0,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.5,
+      "access_count": 5,
+      "max_access_count": 100,
+      "study_time_minutes": 126.06,
+      "max_study_time": 1000,
+      "submission_timing_score": 6.0
+    }
+  },
+  "122000800": {
+    "username": "122000800",
+    "student_id": "122000800",
+    "name": "Nguyễn Tấn Tài",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000800",
+      "full_name": "Nguyễn Tấn Tài",
+      "test_scores": 4.91,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.28,
+      "access_count": 10,
+      "max_access_count": 100,
+      "study_time_minutes": 294.72,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122001025": {
+    "username": "122001025",
+    "student_id": "122001025",
+    "name": "Trần Đình Minh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001025",
+      "full_name": "Trần Đình Minh",
+      "test_scores": 4.46,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.31,
+      "access_count": 14,
+      "max_access_count": 100,
+      "study_time_minutes": 284.04,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000759": {
+    "username": "122000759",
+    "student_id": "122000759",
+    "name": "Bùi Bình Minh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000759",
+      "full_name": "Bùi Bình Minh",
+      "test_scores": 5.14,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.27,
+      "access_count": 25,
+      "max_access_count": 100,
+      "study_time_minutes": 94.71,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122001067": {
+    "username": "122001067",
+    "student_id": "122001067",
+    "name": "Võ Tuấn Sĩ",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001067",
+      "full_name": "Võ Tuấn Sĩ",
+      "test_scores": 4.71,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.23,
+      "access_count": 19,
+      "max_access_count": 100,
+      "study_time_minutes": 297.51,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000537": {
+    "username": "122000537",
+    "student_id": "122000537",
+    "name": "Trịnh Vũ Tuấn Minh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000537",
+      "full_name": "Trịnh Vũ Tuấn Minh",
+      "test_scores": 5.21,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.26,
+      "access_count": 14,
+      "max_access_count": 100,
+      "study_time_minutes": 114.49,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000057": {
+    "username": "122000057",
+    "student_id": "122000057",
+    "name": "Diệp Thị Mỹ Hằng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000057",
+      "full_name": "Diệp Thị Mỹ Hằng",
+      "test_scores": 5.12,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.21,
+      "access_count": 6,
+      "max_access_count": 100,
+      "study_time_minutes": 230.5,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000268": {
+    "username": "122000268",
+    "student_id": "122000268",
+    "name": "Vũ Tiến Đức",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000268",
+      "full_name": "Vũ Tiến Đức",
+      "test_scores": 4.35,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.32,
+      "access_count": 8,
+      "max_access_count": 100,
+      "study_time_minutes": 199.47,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000757": {
+    "username": "122000757",
+    "student_id": "122000757",
+    "name": "Nguyễn Hoàng Hưng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000757",
+      "full_name": "Nguyễn Hoàng Hưng",
+      "test_scores": 3.92,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.35,
+      "access_count": 7,
+      "max_access_count": 100,
+      "study_time_minutes": 212.99,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000246": {
+    "username": "122000246",
+    "student_id": "122000246",
+    "name": "Ngô Minh Quân",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000246",
+      "full_name": "Ngô Minh Quân",
+      "test_scores": 3.52,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.32,
+      "access_count": 22,
+      "max_access_count": 100,
+      "study_time_minutes": 215.63,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000015": {
+    "username": "122000015",
+    "student_id": "122000015",
+    "name": "Mai Trung Hoài Phong",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000015",
+      "full_name": "Mai Trung Hoài Phong",
+      "test_scores": 4.34,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.23,
+      "access_count": 15,
+      "max_access_count": 100,
+      "study_time_minutes": 266.54,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122001011": {
+    "username": "122001011",
+    "student_id": "122001011",
+    "name": "Lê Đức Thịnh",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001011",
+      "full_name": "Lê Đức Thịnh",
+      "test_scores": 3.68,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.33,
+      "access_count": 24,
+      "max_access_count": 100,
+      "study_time_minutes": 138.14,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122001350": {
+    "username": "122001350",
+    "student_id": "122001350",
+    "name": "Lại Xuân Quang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001350",
+      "full_name": "Lại Xuân Quang",
+      "test_scores": 3.73,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.25,
+      "access_count": 28,
+      "max_access_count": 100,
+      "study_time_minutes": 225.75,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000315": {
+    "username": "122000315",
+    "student_id": "122000315",
+    "name": "Trần Mạnh Thái",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000315",
+      "full_name": "Trần Mạnh Thái",
+      "test_scores": 3.27,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.26,
+      "access_count": 29,
+      "max_access_count": 100,
+      "study_time_minutes": 290.29,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000843": {
+    "username": "122000843",
+    "student_id": "122000843",
+    "name": "Nguyễn Huy Quang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000843",
+      "full_name": "Nguyễn Huy Quang",
+      "test_scores": 4.48,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.26,
+      "access_count": 20,
+      "max_access_count": 100,
+      "study_time_minutes": 120.19,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "121000156": {
+    "username": "121000156",
+    "student_id": "121000156",
+    "name": "Nguyễn Linh Quốc Bảo",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "121000156",
+      "full_name": "Nguyễn Linh Quốc Bảo",
+      "test_scores": 3.85,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.21,
+      "access_count": 21,
+      "max_access_count": 100,
+      "study_time_minutes": 294.15,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122001282": {
+    "username": "122001282",
+    "student_id": "122001282",
+    "name": "Phạm Dũng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122001282",
+      "full_name": "Phạm Dũng",
+      "test_scores": 3.49,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.36,
+      "access_count": 9,
+      "max_access_count": 100,
+      "study_time_minutes": 223.11,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000386": {
+    "username": "122000386",
+    "student_id": "122000386",
+    "name": "Trần Đăng Khoa",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000386",
+      "full_name": "Trần Đăng Khoa",
+      "test_scores": 3.19,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.29,
+      "access_count": 28,
+      "max_access_count": 100,
+      "study_time_minutes": 216.48,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000336": {
+    "username": "122000336",
+    "student_id": "122000336",
+    "name": "Nguyễn Trần Trung Kiên",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000336",
+      "full_name": "Nguyễn Trần Trung Kiên",
+      "test_scores": 4.63,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.24,
+      "access_count": 19,
+      "max_access_count": 100,
+      "study_time_minutes": 91.32,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000970": {
+    "username": "122000970",
+    "student_id": "122000970",
+    "name": "Lê Huỳnh Phúc",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000970",
+      "full_name": "Lê Huỳnh Phúc",
+      "test_scores": 3.97,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.24,
+      "access_count": 29,
+      "max_access_count": 100,
+      "study_time_minutes": 129.5,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000343": {
+    "username": "122000343",
+    "student_id": "122000343",
+    "name": "Huỳnh Minh Sang",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000343",
+      "full_name": "Huỳnh Minh Sang",
+      "test_scores": 4.27,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.32,
+      "access_count": 12,
+      "max_access_count": 100,
+      "study_time_minutes": 51.38,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000404": {
+    "username": "122000404",
+    "student_id": "122000404",
+    "name": "Trần Văn Hưng",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000404",
+      "full_name": "Trần Văn Hưng",
+      "test_scores": 3.82,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.37,
+      "access_count": 7,
+      "max_access_count": 100,
+      "study_time_minutes": 79.9,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000093": {
+    "username": "122000093",
+    "student_id": "122000093",
+    "name": "Trương Quốc Hòa",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000093",
+      "full_name": "Trương Quốc Hòa",
+      "test_scores": 4.3,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.29,
+      "access_count": 14,
+      "max_access_count": 100,
+      "study_time_minutes": 61.67,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000111": {
+    "username": "122000111",
+    "student_id": "122000111",
+    "name": "Phạm Anh Đức",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000111",
+      "full_name": "Phạm Anh Đức",
+      "test_scores": 3.7,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.23,
+      "access_count": 23,
+      "max_access_count": 100,
+      "study_time_minutes": 145.62,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000232": {
+    "username": "122000232",
+    "student_id": "122000232",
+    "name": "Hà Vũ Khải",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000232",
+      "full_name": "Hà Vũ Khải",
+      "test_scores": 3.69,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.27,
+      "access_count": 11,
+      "max_access_count": 100,
+      "study_time_minutes": 202.5,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "122000490": {
+    "username": "122000490",
+    "student_id": "122000490",
+    "name": "Trần Châu Quý",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "122000490",
+      "full_name": "Trần Châu Quý",
+      "test_scores": 4.28,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.21,
+      "access_count": 17,
+      "max_access_count": 100,
+      "study_time_minutes": 100.43,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  },
+  "121001240": {
+    "username": "121001240",
+    "student_id": "121001240",
+    "name": "Đỗ Khắc Đức",
+    "password": "123456",
+    "raw_data": {
+      "student_id": "121001240",
+      "full_name": "Đỗ Khắc Đức",
+      "test_scores": 3.1,
+      "max_test_score": 10,
+      "assignment_completion_rate": 0.3,
+      "access_count": 5,
+      "max_access_count": 100,
+      "study_time_minutes": 109.89,
+      "max_study_time": 1000,
+      "submission_timing_score": 8.0
+    }
+  }
+}

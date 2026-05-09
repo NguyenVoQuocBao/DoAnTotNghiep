@@ -1,0 +1,710 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý File Excel{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-file-excel"></i> Quản lý File Excel</h2>
+                <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-upload"></i> Tải lên File Excel</h5>
+                </div>
+                <div class="card-body">
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="mb-3">
+                            <label for="excelFile" class="form-label">Chọn file Excel (.xlsx, .xls) hoặc CSV (.csv)</label>
+                            <input type="file" class="form-control" id="excelFile" name="file" accept=".xlsx,.xls,.csv" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> Tải lên
+                        </button>
+                    </form>
+                    
+                    <div id="uploadStatus" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Info Section -->
+    <div class="row mb-4" id="fileInfoSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Thông tin File</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Tên file:</strong> <span id="fileName"></span></p>
+                    <p><strong>Tổng số dòng:</strong> <span id="totalRows"></span></p>
+                    <p><strong>Các cột:</strong> <span id="columnList"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sort Section -->
+    <div class="row mb-4" id="sortSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-sort"></i> Sắp xếp Dữ liệu</h5>
+                </div>
+                <div class="card-body">
+                    <form id="sortForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="sortColumn" class="form-label">Chọn cột để sắp xếp</label>
+                                <select class="form-select" id="sortColumn" name="sort_column" required>
+                                    <option value="">-- Chọn cột --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="sortOrder" class="form-label">Thứ tự sắp xếp</label>
+                                <select class="form-select" id="sortOrder" name="sort_order">
+                                    <option value="asc">Tăng dần (A-Z, 0-9)</option>
+                                    <option value="desc">Giảm dần (Z-A, 9-0)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-sort"></i> Sắp xếp
+                        </button>
+                    </form>
+                    
+                    <div id="sortStatus" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="row mb-4" id="filterSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0"><i class="fas fa-filter"></i> Lọc Dữ liệu</h5>
+                </div>
+                <div class="card-body">
+                    <form id="filterForm">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="filterColumn" class="form-label">Chọn cột</label>
+                                <select class="form-select" id="filterColumn" name="filter_column" required>
+                                    <option value="">-- Chọn cột --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="filterType" class="form-label">Kiểu lọc</label>
+                                <select class="form-select" id="filterType" name="filter_type">
+                                    <option value="contains">Chứa</option>
+                                    <option value="equals">Bằng</option>
+                                    <option value="starts_with">Bắt đầu với</option>
+                                    <option value="ends_with">Kết thúc với</option>
+                                    <option value="greater">Lớn hơn (số)</option>
+                                    <option value="less">Nhỏ hơn (số)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="filterValue" class="form-label">Giá trị</label>
+                                <input type="text" class="form-control" id="filterValue" name="filter_value" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-filter"></i> Lọc
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="clearFilterBtn">
+                            <i class="fas fa-times"></i> Xóa lọc
+                        </button>
+                    </form>
+                    
+                    <div id="filterStatus" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="row mb-4" id="statsSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Thống kê Cột</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="statsColumn" class="form-label">Chọn cột để xem thống kê</label>
+                            <select class="form-select" id="statsColumn" name="stats_column">
+                                <option value="">-- Chọn cột --</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="statsResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="row mb-4" id="previewSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0"><i class="fas fa-eye"></i> Dữ liệu file (hiển thị toàn bộ)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="previewTable">
+                            <thead id="previewTableHead"></thead>
+                            <tbody id="previewTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Section -->
+    <div class="row mb-4" id="downloadSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-download"></i> Tải xuống File đã sắp xếp</h5>
+                </div>
+                <div class="card-body">
+                    <p>File đã được sắp xếp thành công!</p>
+                    <a href="{{ url_for('teacher.download_sorted_excel') }}" class="btn btn-dark">
+                        <i class="fas fa-download"></i> Tải xuống
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .card {
+        border-radius: 14px;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 24px 50px rgba(15, 23, 42, 0.12);
+    }
+    
+    .card-header {
+        border-radius: 14px 14px 0 0 !important;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .card-body {
+        background-color: rgba(255, 255, 255, 0.98);
+        color: #1e293b;
+    }
+    
+    .card-body label,
+    .card-body p,
+    .card-body span,
+    .card-body strong,
+    .card-body h6,
+    .card-body small {
+        color: #1e293b;
+    }
+    
+    .form-control, .form-select {
+        color: #1e293b;
+    }
+        border: 2px solid rgba(15, 23, 42, 0.12);
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.95);
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        background-color: white;
+    }
+    
+    .btn {
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    }
+    
+    .btn-warning {
+        background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    
+    .btn-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #475569 100%);
+        box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);
+    }
+    
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
+    }
+    
+    .btn-dark {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        box-shadow: 0 4px 15px rgba(31, 41, 55, 0.3);
+    }
+    
+    .btn-dark:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(31, 41, 55, 0.4);
+    }
+    
+    /* Enhanced card headers with better contrast */
+    .card-header.bg-primary {
+        background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .card-header.bg-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .card-header.bg-info {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .card-header.bg-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .card-header.bg-dark {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Enhanced table styling */
+    .table {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .table th {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-bottom: 2px solid #e2e8f0;
+        font-weight: 600;
+        color: #374151;
+        padding: 1rem 0.75rem;
+    }
+    
+    .table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+    
+    .table tbody tr:hover {
+        background-color: rgba(79, 70, 229, 0.02);
+    }
+    
+    /* Enhanced alert styling */
+    .alert {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .alert-success {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        border-left: 4px solid #10b981;
+    }
+    
+    .alert-danger {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+        border-left: 4px solid #ef4444;
+    }
+    
+    .alert-warning {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        color: #92400e;
+        border-left: 4px solid #f59e0b;
+    }
+    
+    .alert-info {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #1e40af;
+        border-left: 4px solid #3b82f6;
+    }
+    
+    /* Loading animation */
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .loading {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+        .card {
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .table-responsive {
+            max-height: 50vh;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadForm = document.getElementById('uploadForm');
+    console.log('uploadForm:', uploadForm);
+    const sortForm = document.getElementById('sortForm');
+    const filterForm = document.getElementById('filterForm');
+    const clearFilterBtn = document.getElementById('clearFilterBtn');
+    const statsColumn = document.getElementById('statsColumn');
+    const csrfToken = document.querySelector('input[name="csrf_token"]')?.value || '';
+    
+    let currentColumns = [];
+
+    function getCsrfHeaders(contentType = 'application/json') {
+        const headers = {
+            'X-CSRFToken': csrfToken
+        };
+        if (contentType) {
+            headers['Content-Type'] = contentType;
+        }
+        return headers;
+    }
+
+    async function fetchJson(url, options = {}) {
+        const response = await fetch(url, options);
+        const text = await response.text();
+        try {
+            return { status: response.status, body: JSON.parse(text) };
+        } catch (err) {
+            throw new Error(`Invalid JSON response (${response.status}): ${text}`);
+        }
+    }
+    
+    // Handle file upload
+    uploadForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('Form submitted!');
+        
+        const formData = new FormData(uploadForm);
+        const uploadStatus = document.getElementById('uploadStatus');
+        
+        console.log('File:', formData.get('file'));
+        
+        uploadStatus.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin"></i> Đang tải lên...</div>';
+        
+        try {
+            const { status, body: result } = await fetchJson('{{ url_for("teacher.upload_excel") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
+            });
+            
+            if (result.success) {
+                uploadStatus.innerHTML = '<div class="alert alert-success"><i class="fas fa-check"></i> Tải lên thành công!</div>';
+                
+                currentColumns = result.columns;
+                
+                // Show file info
+                document.getElementById('fileName').textContent = result.filename;
+                document.getElementById('totalRows').textContent = result.total_rows;
+                document.getElementById('columnList').textContent = result.columns.join(', ');
+                document.getElementById('fileInfoSection').style.display = 'block';
+                
+                // Populate dropdowns
+                populateColumnDropdowns(result.columns);
+                
+                // Show sections
+                document.getElementById('sortSection').style.display = 'block';
+                document.getElementById('filterSection').style.display = 'block';
+                document.getElementById('statsSection').style.display = 'block';
+                
+                // Show preview
+                displayPreview(result.columns, result.preview);
+                
+                // Hide download section
+                document.getElementById('downloadSection').style.display = 'none';
+            } else {
+                uploadStatus.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> ${result.error}</div>`;
+            }
+        } catch (error) {
+            uploadStatus.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> Lỗi: ${error.message}</div>`;
+        }
+    });
+    
+    // Populate all column dropdowns
+    function populateColumnDropdowns(columns) {
+        const dropdowns = ['sortColumn', 'filterColumn', 'statsColumn'];
+        
+        dropdowns.forEach(dropdownId => {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = '<option value="">-- Chọn cột --</option>';
+            columns.forEach(col => {
+                const option = document.createElement('option');
+                option.value = col;
+                option.textContent = col;
+                dropdown.appendChild(option);
+            });
+        });
+    }
+    
+    // Handle sort
+    sortForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const sortColumn = document.getElementById('sortColumn').value;
+        const sortOrder = document.getElementById('sortOrder').value;
+        const sortStatus = document.getElementById('sortStatus');
+        
+        if (!sortColumn) {
+            sortStatus.innerHTML = '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Vui lòng chọn cột để sắp xếp!</div>';
+            return;
+        }
+        
+        sortStatus.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin"></i> Đang sắp xếp...</div>';
+        
+        try {
+            const { status, body: result } = await fetchJson('{{ url_for("teacher.sort_excel") }}', {
+                method: 'POST',
+                headers: getCsrfHeaders('application/json'),
+                body: JSON.stringify({
+                    sort_column: sortColumn,
+                    ascending: sortOrder === 'asc'
+                })
+            });
+            
+            if (result.success) {
+                sortStatus.innerHTML = '<div class="alert alert-success"><i class="fas fa-check"></i> Sắp xếp thành công!</div>';
+                
+                // Update preview with sorted data
+                const columns = Object.keys(result.preview[0]);
+                displayPreview(columns, result.preview);
+                
+                // Show download section
+                document.getElementById('downloadSection').style.display = 'block';
+            } else {
+                sortStatus.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> ${result.error}</div>`;
+            }
+        } catch (error) {
+            sortStatus.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> Lỗi: ${error.message}</div>`;
+        }
+    });
+    
+    // Handle filter
+    filterForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const filterColumn = document.getElementById('filterColumn').value;
+        const filterType = document.getElementById('filterType').value;
+        const filterValue = document.getElementById('filterValue').value;
+        const filterStatus = document.getElementById('filterStatus');
+        
+        if (!filterColumn || !filterValue) {
+            filterStatus.innerHTML = '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Vui lòng điền đầy đủ thông tin!</div>';
+            return;
+        }
+        
+        filterStatus.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin"></i> Đang lọc...</div>';
+        
+        try {
+            const { status, body: result } = await fetchJson('{{ url_for("teacher.filter_excel") }}', {
+                method: 'POST',
+                headers: getCsrfHeaders('application/json'),
+                body: JSON.stringify({
+                    filter_column: filterColumn,
+                    filter_type: filterType,
+                    filter_value: filterValue
+                })
+            });
+            
+            if (result.success) {
+                filterStatus.innerHTML = `<div class="alert alert-success"><i class="fas fa-check"></i> Lọc thành công! Tìm thấy ${result.total_rows} dòng (từ ${result.filtered_from} dòng)</div>`;
+                
+                // Update preview with filtered data
+                if (result.preview.length > 0) {
+                    const columns = Object.keys(result.preview[0]);
+                    displayPreview(columns, result.preview);
+                } else {
+                    filterStatus.innerHTML += '<div class="alert alert-warning mt-2">Không tìm thấy dữ liệu phù hợp!</div>';
+                }
+            } else {
+                filterStatus.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> ${result.error}</div>`;
+            }
+        } catch (error) {
+            filterStatus.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> Lỗi: ${error.message}</div>`;
+        }
+    });
+    
+    // Clear filter
+    clearFilterBtn.addEventListener('click', function() {
+        document.getElementById('filterValue').value = '';
+        document.getElementById('filterStatus').innerHTML = '';
+        
+        // Reload original data by re-uploading (or you can store original data)
+        location.reload();
+    });
+    
+    // Handle statistics
+    statsColumn.addEventListener('change', async function() {
+        const column = this.value;
+        const statsResult = document.getElementById('statsResult');
+        
+        if (!column) {
+            statsResult.innerHTML = '';
+            return;
+        }
+        
+        statsResult.innerHTML = '<div class="alert alert-info"><i class="fas fa-spinner fa-spin"></i> Đang tính toán...</div>';
+        
+        try {
+            const { status, body: result } = await fetchJson('{{ url_for("teacher.get_column_stats") }}', {
+                method: 'POST',
+                headers: getCsrfHeaders('application/json'),
+                body: JSON.stringify({
+                    column: column
+                })
+            });
+            
+            if (result.success) {
+                const stats = result.statistics;
+                
+                if (stats.type === 'numeric') {
+                    statsResult.innerHTML = `
+                        <div class="alert alert-success">
+                            <h6><strong>Thống kê cho cột: ${column}</strong></h6>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <strong>Số lượng:</strong> ${stats.count}
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Trung bình:</strong> ${stats.mean}
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Trung vị:</strong> ${stats.median}
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Độ lệch chuẩn:</strong> ${stats.std}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <strong>Giá trị nhỏ nhất:</strong> ${stats.min}
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Giá trị lớn nhất:</strong> ${stats.max}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    statsResult.innerHTML = `
+                        <div class="alert alert-info">
+                            <strong>Cột "${column}" không phải là dữ liệu số.</strong><br>
+                            Số giá trị duy nhất: ${stats.unique_values || 'N/A'}
+                        </div>
+                    `;
+                }
+            } else {
+                statsResult.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> ${result.error}</div>`;
+            }
+        } catch (error) {
+            statsResult.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times"></i> Lỗi: ${error.message}</div>`;
+        }
+    });
+    
+    function displayPreview(columns, data) {
+        const previewTableHead = document.getElementById('previewTableHead');
+        const previewTableBody = document.getElementById('previewTableBody');
+        
+        // Create header
+        let headerHTML = '<tr>';
+        columns.forEach(col => {
+            headerHTML += `<th>${col}</th>`;
+        });
+        headerHTML += '</tr>';
+        previewTableHead.innerHTML = headerHTML;
+        
+        // Create body
+        let bodyHTML = '';
+        data.forEach(row => {
+            bodyHTML += '<tr>';
+            columns.forEach(col => {
+                const value = row[col] !== null && row[col] !== undefined ? row[col] : '';
+                bodyHTML += `<td>${value}</td>`;
+            });
+            bodyHTML += '</tr>';
+        });
+        previewTableBody.innerHTML = bodyHTML;
+        
+        // Show preview section
+        document.getElementById('previewSection').style.display = 'block';
+    }
+});
+</script>
+{% endblock %}

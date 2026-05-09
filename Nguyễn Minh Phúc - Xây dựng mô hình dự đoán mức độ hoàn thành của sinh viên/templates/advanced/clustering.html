@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block title %}Phân tích Clustering{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .metric-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); color: #1e293b; }
+    .metric-value { font-size: 2rem; font-weight: bold; color: #4f46e5; }
+    .metric-label { color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .cluster-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .chart-container { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+    .table { color: #1e293b; }
+    .table th { background: #f8fafc; color: #374151; }
+    .card-body { color: #1e293b; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-project-diagram"></i> Phân tích Clustering Sinh viên</h2>
+        <a href="{{ url_for('advanced.advanced_dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <!-- Controls -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Số nhóm (clusters):</label>
+                    <select id="clusterCount" class="form-select">
+                        <option value="3">3 nhóm</option>
+                        <option value="4" selected>4 nhóm</option>
+                        <option value="5">5 nhóm</option>
+                        <option value="6">6 nhóm</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mt-3 mt-md-0">
+                    <label class="form-label">&nbsp;</label>
+                    <div>
+                        <button id="runClustering" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Chạy phân tích
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingDiv" class="text-center py-5" style="display:none;">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2">Đang phân tích...</p>
+    </div>
+
+    <div id="resultsDiv" style="display:none;">
+        <!-- Summary cards -->
+        <div class="row mb-4" id="summaryCards"></div>
+
+        <!-- Chart -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="mb-3">Phân bố sinh viên theo nhóm</h5>
+                    <canvas id="clusterChart" height="250"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="mb-3">Điểm trung bình theo nhóm</h5>
+                    <canvas id="avgScoreChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cluster details table -->
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-table"></i> Chi tiết các nhóm</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="clusterTable">
+                        <thead><tr>
+                            <th>Nhóm</th><th>Số sinh viên</th><th>Điểm TB</th>
+                            <th>Mức hoàn thành chủ yếu</th><th>Đặc điểm</th>
+                        </tr></thead>
+                        <tbody id="clusterTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="errorDiv" class="alert alert-danger" style="display:none;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const colors = ['#4f46e5','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4'];
+let clusterChart, avgChart;
+
+document.getElementById('runClustering').addEventListener('click', loadClustering);
+
+async function loadClustering() {
+    const n = document.getElementById('clusterCount').value;
+    document.getElementById('loadingDiv').style.display = 'block';
+    document.getElementById('resultsDiv').style.display = 'none';
+    document.getElementById('errorDiv').style.display = 'none';
+
+    try {
+        const res = await fetch(`/advanced/api/clustering?clusters=${n}`);
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Lỗi không xác định');
+        renderResults(data.data);
+    } catch(e) {
+        document.getElementById('errorDiv').textContent = 'Lỗi: ' + e.message;
+        document.getElementById('errorDiv').style.display = 'block';
+    } finally {
+        document.getElementById('loadingDiv').style.display = 'none';
+    }
+}
+
+function renderResults(data) {
+    const clusters = data.clusters || [];
+    const total = clusters.reduce((s, c) => s + (c.size || 0), 0);
+
+    // Summary cards
+    const cards = document.getElementById('summaryCards');
+    cards.innerHTML = `
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value">${clusters.length}</div>
+            <div class="metric-label">Số nhóm</div>
+        </div></div>
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value">${total}</div>
+            <div class="metric-label">Tổng sinh viên</div>
+        </div></div>
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value">${data.silhouette_score ? (data.silhouette_score * 100).toFixed(1) + '%' : 'N/A'}</div>
+            <div class="metric-label">Silhouette Score</div>
+        </div></div>
+        <div class="col-md-3"><div class="metric-card text-center">
+            <div class="metric-value">${data.inertia ? Math.round(data.inertia) : 'N/A'}</div>
+            <div class="metric-label">Inertia</div>
+        </div></div>
+    `;
+
+    // Cluster distribution chart
+    if (clusterChart) clusterChart.destroy();
+    clusterChart = new Chart(document.getElementById('clusterChart'), {
+        type: 'doughnut',
+        data: {
+            labels: clusters.map((c, i) => `Nhóm ${i+1} (${c.size} SV)`),
+            datasets: [{ data: clusters.map(c => c.size), backgroundColor: colors }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    // Avg score chart
+    if (avgChart) avgChart.destroy();
+    avgChart = new Chart(document.getElementById('avgScoreChart'), {
+        type: 'bar',
+        data: {
+            labels: clusters.map((c, i) => `Nhóm ${i+1}`),
+            datasets: [{
+                label: 'Điểm hoàn thành TB',
+                data: clusters.map(c => c.avg_completion_score ? c.avg_completion_score.toFixed(2) : 0),
+                backgroundColor: colors
+            }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
+    });
+
+    // Table
+    const tbody = document.getElementById('clusterTableBody');
+    tbody.innerHTML = clusters.map((c, i) => `
+        <tr>
+            <td><span class="cluster-badge" style="background:${colors[i]}20;color:${colors[i]}">Nhóm ${i+1}</span></td>
+            <td>${c.size || 0}</td>
+            <td>${c.avg_completion_score ? c.avg_completion_score.toFixed(2) : 'N/A'}</td>
+            <td>${c.dominant_level || 'N/A'}</td>
+            <td>${c.description || 'Nhóm sinh viên ' + (i+1)}</td>
+        </tr>
+    `).join('');
+
+    document.getElementById('resultsDiv').style.display = 'block';
+}
+
+// Auto-load on page open
+loadClustering();
+</script>
+{% endblock %}

@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}Cập nhật Dữ liệu - Hệ thống Phân tích Học tập{% endblock %}
+
+{% block extra_css %}
+<style>
+    .edit-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .edit-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .edit-header {
+        border-bottom: 2px solid #e8f4f8;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .edit-header h3 {
+        color: #2c3e50;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+    
+    .form-group .help-text {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e8f4f8;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    .input-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .input-addon {
+        background: #f8f9fa;
+        padding: 12px 15px;
+        border: 2px solid #e8f4f8;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #7f8c8d;
+    }
+    
+    .range-slider {
+        width: 100%;
+        height: 8px;
+        border-radius: 5px;
+        background: #e8f4f8;
+        outline: none;
+        -webkit-appearance: none;
+    }
+    
+    .range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3498db;
+        cursor: pointer;
+    }
+    
+    .range-slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3498db;
+        cursor: pointer;
+        border: none;
+    }
+    
+    .range-value {
+        display: inline-block;
+        min-width: 60px;
+        text-align: center;
+        font-weight: 600;
+        color: #3498db;
+        font-size: 1.1rem;
+    }
+    
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        flex: 1;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-secondary {
+        background: #95a5a6;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background: #7f8c8d;
+        transform: translateY(-2px);
+    }
+    
+    .alert {
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+    
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .alert-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    .current-values {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+    
+    .current-values h4 {
+        font-size: 1rem;
+        color: #7f8c8d;
+        margin-bottom: 15px;
+    }
+    
+    .value-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .value-item {
+        text-align: center;
+    }
+    
+    .value-item .label {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-bottom: 5px;
+    }
+    
+    .value-item .value {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-container">
+    <div class="edit-card">
+        <div class="edit-header">
+            <h3><i class="fas fa-edit me-2"></i>Cập nhật Dữ liệu Học tập</h3>
+        </div>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Lưu ý:</strong> Cập nhật dữ liệu của bạn để hệ thống phân tích chính xác hơn. 
+            Các giá trị sẽ được chuẩn hóa về thang điểm 1-10.
+        </div>
+        
+        <!-- Current Values -->
+        <div class="current-values">
+            <h4><i class="fas fa-chart-line me-2"></i>Giá trị hiện tại</h4>
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="label">Điểm thi</div>
+                    <div class="value">{{ "%.1f"|format(current_data.test_scores) }}</div>
+                </div>
+                <div class="value-item">
+                    <div class="label">Hoàn thành BT</div>
+                    <div class="value">{{ "%.0f"|format(current_data.assignment_completion_rate * 100) }}%</div>
+                </div>
+                <div class="value-item">
+                    <div class="label">Truy cập</div>
+                    <div class="value">{{ current_data.access_count }} lần</div>
+                </div>
+                <div class="value-item">
+                    <div class="label">Thời gian học</div>
+                    <div class="value">{{ (current_data.study_time_minutes // 60)|int }} giờ {{ (current_data.study_time_minutes % 60)|int }} phút</div>
+                </div>
+            </div>
+        </div>
+        
+        <form method="POST" action="{{ url_for('student.update_data') }}" id="updateForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            
+            <!-- Test Scores -->
+            <div class="form-group">
+                <label for="test_scores">
+                    <i class="fas fa-graduation-cap me-2"></i>Điểm thi trung bình
+                </label>
+                <div class="input-group">
+                    <input type="range" 
+                           class="range-slider" 
+                           id="test_scores" 
+                           name="test_scores" 
+                           min="0" 
+                           max="10" 
+                           step="0.1" 
+                           value="{{ current_data.test_scores }}"
+                           oninput="updateRangeValue('test_scores')">
+                    <span class="range-value" id="test_scores_value">{{ "%.1f"|format(current_data.test_scores) }}</span>
+                </div>
+                <div class="help-text">Điểm trung bình các bài kiểm tra (0-10)</div>
+            </div>
+            
+            <!-- Assignment Completion -->
+            <div class="form-group">
+                <label for="assignment_completion">
+                    <i class="fas fa-tasks me-2"></i>Tỷ lệ hoàn thành bài tập
+                </label>
+                <div class="input-group">
+                    <input type="range" 
+                           class="range-slider" 
+                           id="assignment_completion" 
+                           name="assignment_completion" 
+                           min="0" 
+                           max="100" 
+                           step="1" 
+                           value="{{ (current_data.assignment_completion_rate * 100)|int }}"
+                           oninput="updateRangeValue('assignment_completion')">
+                    <span class="range-value" id="assignment_completion_value">{{ (current_data.assignment_completion_rate * 100)|int }}%</span>
+                </div>
+                <div class="help-text">Phần trăm bài tập đã hoàn thành (0-100%)</div>
+            </div>
+            
+            <!-- Access Count -->
+            <div class="form-group">
+                <label for="access_count">
+                    <i class="fas fa-sign-in-alt me-2"></i>Số lần truy cập hệ thống
+                </label>
+                <div class="input-group">
+                    <input type="number" 
+                           class="form-control" 
+                           id="access_count" 
+                           name="access_count" 
+                           min="0" 
+                           max="200" 
+                           value="{{ current_data.access_count }}">
+                    <span class="input-addon">lần</span>
+                </div>
+                <div class="help-text">Số lần đăng nhập vào hệ thống học tập</div>
+            </div>
+            
+            <!-- Study Time -->
+            <div class="form-group">
+                <label for="study_time">
+                    <i class="fas fa-clock me-2"></i>Thời gian học tập
+                </label>
+                <div class="input-group">
+                    <input type="number" 
+                           class="form-control" 
+                           id="study_time" 
+                           name="study_time" 
+                           min="0" 
+                           max="2000" 
+                           step="10" 
+                           value="{{ current_data.study_time_minutes|int }}">
+                    <span class="input-addon">phút</span>
+                </div>
+                <div class="help-text">Tổng thời gian học tập (phút)</div>
+            </div>
+            
+            <!-- Submission Timing -->
+            <div class="form-group">
+                <label for="submission_timing">
+                    <i class="fas fa-calendar-check me-2"></i>Thời điểm nộp bài
+                </label>
+                <select class="form-control" id="submission_timing" name="submission_timing">
+                    <option value="1" {% if current_data.get('submission_timing', 5) <= 3 %}selected{% endif %}>Luôn nộp sớm (trước deadline 2-3 ngày)</option>
+                    <option value="5" {% if 3 < current_data.get('submission_timing', 5) <= 7 %}selected{% endif %}>Nộp đúng hạn</option>
+                    <option value="9" {% if current_data.get('submission_timing', 5) > 7 %}selected{% endif %}>Thường nộp muộn</option>
+                </select>
+                <div class="help-text">Thói quen nộp bài tập của bạn</div>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Lưu thay đổi
+                </button>
+                <a href="{{ url_for('student.dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>Hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateRangeValue(id) {
+    const input = document.getElementById(id);
+    const valueSpan = document.getElementById(id + '_value');
+    
+    if (id === 'assignment_completion') {
+        valueSpan.textContent = input.value + '%';
+    } else {
+        valueSpan.textContent = parseFloat(input.value).toFixed(1);
+    }
+}
+
+// Form validation
+document.getElementById('updateForm').addEventListener('submit', function(e) {
+    const testScores = parseFloat(document.getElementById('test_scores').value);
+    const accessCount = parseInt(document.getElementById('access_count').value);
+    const studyTime = parseInt(document.getElementById('study_time').value);
+    
+    if (testScores < 0 || testScores > 10) {
+        alert('Điểm thi phải từ 0 đến 10');
+        e.preventDefault();
+        return;
+    }
+    
+    if (accessCount < 0 || accessCount > 200) {
+        alert('Số lần truy cập phải từ 0 đến 200');
+        e.preventDefault();
+        return;
+    }
+    
+    if (studyTime < 0 || studyTime > 2000) {
+        alert('Thời gian học phải từ 0 đến 2000 phút');
+        e.preventDefault();
+        return;
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{
+  "training_samples": 196,
+  "features": [
+    "test_scores",
+    "assignment_completion",
+    "access_frequency",
+    "study_time",
+    "submission_timing"
+  ],
+  "cv_scores": [
+    0.95,
+    1.0,
+    0.9487179487179487,
+    0.9743589743589743,
+    1.0
+  ],
+  "cv_mean": 0.9746153846153846,
+  "cv_std": 0.022651346487546454,
+  "best_params": null,
+  "n_estimators": 100,
+  "random_state": 42
+}

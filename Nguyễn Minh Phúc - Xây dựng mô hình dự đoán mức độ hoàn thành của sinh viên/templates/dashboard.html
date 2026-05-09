@@ -1,0 +1,641 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Hệ thống Phân tích Học tập{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+<style>
+    .dashboard-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .dashboard-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .progress-ring {
+        width: 120px;
+        height: 120px;
+        position: relative;
+    }
+    
+    .progress-ring svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+    
+    .progress-ring circle {
+        fill: none;
+        stroke-width: 8;
+    }
+    
+    .progress-ring .bg {
+        stroke: rgba(255,255,255,0.2);
+    }
+    
+    .progress-ring .progress {
+        stroke: #fff;
+        stroke-linecap: round;
+        transition: stroke-dasharray 1s ease;
+    }
+    
+    .metric-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(to bottom, #667eea, #764ba2);
+    }
+    
+    .metric-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        display: block;
+    }
+    
+    .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    
+    .metric-label {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .metric-trend {
+        font-size: 0.8rem;
+        margin-top: 10px;
+    }
+    
+    .trend-up { color: #27ae60; }
+    .trend-down { color: #e74c3c; }
+    .trend-stable { color: #f39c12; }
+    
+    .chart-container {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .chart-container h5 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e8f4f8;
+        display: flex;
+        align-items: center;
+    }
+    
+    .chart-container h5 i {
+        color: #3498db;
+        margin-right: 10px;
+    }
+    
+    .chart-container canvas {
+        max-width: 100%;
+        height: 100% !important;
+        display: block;
+        margin: 0 auto;
+    }
+    
+    .chart-container > div {
+        width: 100%;
+    }
+    
+    .real-time-indicator {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(39, 174, 96, 0.1);
+        color: #27ae60;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .real-time-indicator::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: #27ae60;
+        border-radius: 50%;
+        margin-right: 8px;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.2); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+    
+    .recommendation-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    .prediction-card {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    .action-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 30px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+    
+    .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        color: white;
+        text-decoration: none;
+    }
+    
+    .notification-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 10px;
+        padding: 15px 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+    }
+    
+    .notification-toast.show {
+        transform: translateX(0);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .chart-container {
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .chart-container h5 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+        
+        .chart-container > div {
+            height: 250px !important;
+        }
+        
+        .col-md-6 {
+            margin-bottom: 15px;
+        }
+        
+        .dashboard-hero h1 {
+            font-size: 1.5rem;
+        }
+        
+        .metric-card {
+            margin-bottom: 15px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Hero Section -->
+    <div class="dashboard-hero">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-3">
+                    <i class="fas fa-user-graduate me-3"></i>
+                    Chào mừng, {{ data.student_name }}!
+                </h1>
+                <p class="mb-2 opacity-75">Mã sinh viên: {{ data.student_id }}</p>
+                <div class="real-time-indicator">
+                    <span>Cập nhật thời gian thực</span>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="progress-ring">
+                    <svg>
+                        <circle class="bg" cx="60" cy="60" r="52"></circle>
+                        <circle class="progress" cx="60" cy="60" r="52" 
+                                stroke-dasharray="0 327" 
+                                id="completion-progress"></circle>
+                    </svg>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold;">{{ "%.0f"|format(data.completion_score * 10) }}%</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">Hoàn thành</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="metric-card">
+                <span class="metric-icon">🎯</span>
+                <div class="metric-value" id="completion-level">{{ data.completion_level }}</div>
+                <div class="metric-label">Mức độ hoàn thành</div>
+                <div class="metric-trend trend-up" id="completion-trend">
+                    <i class="fas fa-arrow-up me-1"></i>Cải thiện 5% tuần này
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="metric-card">
+                <span class="metric-icon">👤</span>
+                <div class="metric-value" id="behavior-label">{{ data.behavior_label }}</div>
+                <div class="metric-label">Hành vi học tập</div>
+                <div class="metric-trend trend-stable">
+                    <i class="fas fa-minus me-1"></i>Ổn định
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="metric-card">
+                <span class="metric-icon">📝</span>
+                <div class="metric-value" id="test-score">{{ "%.1f"|format(data.raw_test_score) }}/10</div>
+                <div class="metric-label">Điểm kiểm tra</div>
+                <div class="metric-trend trend-up">
+                    <i class="fas fa-arrow-up me-1"></i>+0.5 điểm
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="metric-card">
+                <span class="metric-icon">✅</span>
+                <div class="metric-value" id="assignment-rate">{{ "%.0f"|format(data.raw_completion_rate * 100) }}%</div>
+                <div class="metric-label">Hoàn thành bài tập</div>
+                <div class="metric-trend trend-up">
+                    <i class="fas fa-arrow-up me-1"></i>+10% tháng này
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-container">
+                <h5><i class="fas fa-chart-radar me-2"></i>Phân tích kỹ năng</h5>
+                <div style="position: relative; height: 300px;">
+                    <canvas id="skillRadarChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Metrics -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="chart-container">
+                <h5><i class="fas fa-chart-bar me-2"></i>Chi tiết chỉ số học tập</h5>
+                <div style="position: relative; height: 350px;">
+                    <canvas id="detailedMetricsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <!-- AI Prediction -->
+            <div class="prediction-card">
+                <h5><i class="fas fa-brain me-2"></i>Dự đoán AI</h5>
+                <div id="ai-prediction">
+                    <div class="mb-3">
+                        <strong>Mức độ dự đoán:</strong>
+                        <span id="predicted-level">{{ data.completion_level }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Độ tin cậy:</strong>
+                        <span id="prediction-confidence">{{ "%.1f"|format(data.completion_score * 10) }}%</span>
+                    </div>
+                    <div class="progress" style="height: 8px; background: rgba(255,255,255,0.2);">
+                        <div class="progress-bar" style="background: white;" id="confidence-bar" style="width: {{ data.completion_score * 10 }}%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recommendation -->
+            <div class="recommendation-card">
+                <h5><i class="fas fa-lightbulb me-2"></i>Gợi ý học tập</h5>
+                <div id="recommendation-content">
+                    <p><strong>Cấp độ tiếp theo:</strong> {{ data.recommendation.level }}</p>
+                    <p><strong>Gợi ý:</strong></p>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        {% for suggestion in data.recommendation.suggestions[:3] %}
+                        <li>{{ suggestion }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('student.analyze') }}" class="action-button">
+                <i class="fas fa-search me-2"></i>Phân tích chi tiết
+            </a>
+            <a href="{{ url_for('student.history') }}" class="action-button">
+                <i class="fas fa-history me-2"></i>Lịch sử học tập
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Toast -->
+<div id="notification-toast" class="notification-toast">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-info-circle me-2 text-primary"></i>
+        <span id="toast-message">Thông báo</span>
+        <button type="button" class="btn-close ms-auto" onclick="hideNotification()"></button>
+    </div>
+</div>
+
+<script>
+// Initialize Socket.IO
+const socket = io();
+
+// Chart instances
+let learningTrendChart, skillRadarChart, detailedMetricsChart;
+
+// Student data
+const studentData = {{ data|tojson }};
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+    setupSocketEvents();
+    updateProgressRing();
+    loadAIPrediction();
+});
+
+function initializeCharts() {
+    // Skill Radar Chart
+    const radarCtx = document.getElementById('skillRadarChart').getContext('2d');
+    skillRadarChart = new Chart(radarCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Điểm thi', 'Bài tập', 'Truy cập', 'Thời gian học', 'Nộp bài'],
+            datasets: [{
+                label: 'Kỹ năng hiện tại',
+                data: [
+                    studentData.test_score * 10,
+                    studentData.assignment_score * 10,
+                    studentData.access_score * 10,
+                    studentData.study_time_score * 10,
+                    (11 - studentData.raw_submission_timing) * 10  // Reverse scale for timing
+                ],
+                borderColor: '#764ba2',
+                backgroundColor: 'rgba(118, 75, 162, 0.2)',
+                pointBackgroundColor: '#764ba2'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    // Detailed Metrics Chart
+    const detailedCtx = document.getElementById('detailedMetricsChart').getContext('2d');
+    detailedMetricsChart = new Chart(detailedCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Điểm thi', 'Hoàn thành BT', 'Tần suất truy cập', 'Thời gian học', 'Thời điểm nộp'],
+            datasets: [{
+                label: 'Điểm số',
+                data: [
+                    studentData.test_score,
+                    studentData.assignment_score,
+                    studentData.access_score,
+                    studentData.study_time_score,
+                    11 - studentData.raw_submission_timing
+                ],
+                backgroundColor: [
+                    '#3498db',
+                    '#2ecc71',
+                    '#f39c12',
+                    '#9b59b6',
+                    '#e74c3c'
+                ],
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 10
+                }
+            }
+        }
+    });
+}
+
+function generateTrendData(currentScore) {
+    // Generate realistic trend data based on current score
+    const data = [];
+    let score = Math.max(20, currentScore - 20);
+    
+    for (let i = 0; i < 6; i++) {
+        data.push(score);
+        score += Math.random() * 10 - 3; // Random walk with slight upward bias
+        score = Math.max(0, Math.min(100, score));
+    }
+    
+    return data;
+}
+
+function updateProgressRing() {
+    const progress = document.getElementById('completion-progress');
+    const percentage = studentData.completion_score * 10;
+    const circumference = 2 * Math.PI * 52;
+    const offset = circumference - (percentage / 100) * circumference;
+    
+    setTimeout(() => {
+        progress.style.strokeDasharray = `${circumference} ${circumference}`;
+        progress.style.strokeDashoffset = offset;
+    }, 500);
+}
+
+function setupSocketEvents() {
+    socket.on('connect', function() {
+        console.log('Connected to server');
+        socket.emit('request_analytics_update');
+    });
+
+    socket.on('analytics_update', function(data) {
+        if (data.type === 'student_analytics') {
+            updateDashboardData(data.data);
+            showNotification('Dữ liệu đã được cập nhật!', 'success');
+        }
+    });
+
+    socket.on('notification', function(data) {
+        showNotification(data.message, data.type);
+    });
+
+    // Request updates every 2 minutes
+    setInterval(() => {
+        socket.emit('request_analytics_update');
+    }, 120000);
+}
+
+function updateDashboardData(data) {
+    // Update completion level
+    document.getElementById('completion-level').textContent = data.completion_assessment.completion_level;
+    
+    // Update behavior label
+    document.getElementById('behavior-label').textContent = data.behavior_label;
+    
+    // Update AI prediction
+    if (data.prediction) {
+        document.getElementById('predicted-level').textContent = data.prediction.predicted_level;
+        document.getElementById('prediction-confidence').textContent = data.prediction.confidence + '%';
+        document.getElementById('confidence-bar').style.width = data.prediction.confidence + '%';
+    }
+    
+    // Update recommendation
+    if (data.recommendation) {
+        const suggestions = data.recommendation.suggestions.slice(0, 3).map(s => `<li>${s}</li>`).join('');
+        document.getElementById('recommendation-content').innerHTML = `
+            <p><strong>Cấp độ tiếp theo:</strong> ${data.recommendation.level}</p>
+            <p><strong>Gợi ý:</strong></p>
+            <ul style="margin: 0; padding-left: 20px;">
+                ${suggestions}
+            </ul>
+        `;
+    }
+}
+
+function loadAIPrediction() {
+    fetch('/student/api/analyze')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.prediction) {
+                const pred = data.prediction.recommended || data.prediction.random_forest;
+                document.getElementById('predicted-level').textContent = pred.predicted_level;
+                document.getElementById('prediction-confidence').textContent = pred.confidence + '%';
+                document.getElementById('confidence-bar').style.width = pred.confidence + '%';
+            }
+        })
+        .catch(error => console.error('Error loading AI prediction:', error));
+}
+
+function requestAnalyticsUpdate() {
+    socket.emit('request_analytics_update');
+    showNotification('Đang cập nhật dữ liệu...', 'info');
+}
+
+function showNotification(message, type = 'info') {
+    const toast = document.getElementById('notification-toast');
+    const messageEl = document.getElementById('toast-message');
+    
+    messageEl.textContent = message;
+    toast.className = `notification-toast show alert-${type}`;
+    
+    setTimeout(() => {
+        hideNotification();
+    }, 5000);
+}
+
+function hideNotification() {
+    const toast = document.getElementById('notification-toast');
+    toast.classList.remove('show');
+}
+
+// Auto-refresh charts every 5 minutes
+setInterval(() => {
+    if (learningTrendChart) {
+        // Update trend data with new point
+        const newData = learningTrendChart.data.datasets[0].data;
+        newData.shift();
+        newData.push(studentData.completion_score * 10 + (Math.random() - 0.5) * 10);
+        learningTrendChart.update();
+    }
+}, 300000);
+</script>
+{% endblock %}
+

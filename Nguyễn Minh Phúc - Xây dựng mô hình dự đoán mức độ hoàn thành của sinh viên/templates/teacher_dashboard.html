@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Giảng viên - Hệ thống Phân tích Học tập{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Dashboard Giảng viên</h2>
+        <p class="subtitle">Xin chào, <strong>{{ teacher_name }}</strong></p>
+    </div>
+
+    <!-- Thống kê tổng quan -->
+    <div class="dashboard-grid">
+        <div class="dashboard-card card-primary">
+            <div class="card-icon">👥</div>
+            <div class="card-content">
+                <h3>Tổng số sinh viên</h3>
+                <div class="card-value">{{ stats.total_students }}</div>
+            </div>
+        </div>
+
+        <div class="dashboard-card card-success">
+            <div class="card-icon">📊</div>
+            <div class="card-content">
+                <h3>Mức độ hoàn thành - Cao</h3>
+                <div class="card-value">{{ stats.level_counts['Cao'] }}</div>
+                <div class="card-subtitle">{{ "%.1f"|format(stats.level_percentages['Cao']) }}%</div>
+            </div>
+        </div>
+
+        <div class="dashboard-card card-warning">
+            <div class="card-icon">📈</div>
+            <div class="card-content">
+                <h3>Mức độ hoàn thành - Trung bình</h3>
+                <div class="card-value">{{ stats.level_counts['Trung bình'] }}</div>
+                <div class="card-subtitle">{{ "%.1f"|format(stats.level_percentages['Trung bình']) }}%</div>
+            </div>
+        </div>
+
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);">
+            <div class="card-icon">📉</div>
+            <div class="card-content">
+                <h3>Mức độ hoàn thành - Thấp</h3>
+                <div class="card-value" style="color: #991b1b;">{{ stats.level_counts['Thấp'] }}</div>
+                <div class="card-subtitle">{{ "%.1f"|format(stats.level_percentages['Thấp']) }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phân bố nhóm hành vi -->
+    <div class="section">
+        <h3>Phân bố Nhóm Hành vi Học tập</h3>
+        <div class="metrics-grid">
+            <div class="metric-item">
+                <div class="metric-label" style="color:#94a3b8;">Nhóm 1: Thụ động</div>
+                <div class="metric-value" style="color:#e2e8f0;">{{ stats.behavior_counts[1] }} sinh viên</div>
+                <div class="metric-score" style="color:#94a3b8;">{{ "%.1f"|format(stats.behavior_percentages[1]) }}%</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-label" style="color:#94a3b8;">Nhóm 2: Chưa ổn định</div>
+                <div class="metric-value" style="color:#e2e8f0;">{{ stats.behavior_counts[2] }} sinh viên</div>
+                <div class="metric-score" style="color:#94a3b8;">{{ "%.1f"|format(stats.behavior_percentages[2]) }}%</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-label" style="color:#94a3b8;">Nhóm 3: Tích cực</div>
+                <div class="metric-value" style="color:#e2e8f0;">{{ stats.behavior_counts[3] }} sinh viên</div>
+                <div class="metric-score" style="color:#94a3b8;">{{ "%.1f"|format(stats.behavior_percentages[3]) }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danh sách sinh viên -->
+    <div class="section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>Danh sách Sinh viên <span id="studentCount" style="font-size:0.9rem;color:#64748b;font-weight:400;"></span></h3>
+            <div style="display: flex; gap: 1rem;">
+                <a href="{{ url_for('teacher.excel_manager') }}" class="btn btn-info">📂 Quản lý File Excel</a>
+                <a href="{{ url_for('teacher.import_data_page') }}" class="btn btn-warning">📥 Import Dữ liệu</a>
+                <a href="{{ url_for('teacher.export_excel') }}" class="btn btn-success">📊 Xuất Excel</a>
+                <a href="{{ url_for('teacher.class_report') }}" class="btn btn-primary">📋 Báo cáo Lớp</a>
+                <a href="{{ url_for('teacher.compare_students') }}" class="btn btn-secondary">⚖️ So sánh SV</a>
+                <a href="{{ url_for('teacher.model_performance') }}" class="btn btn-secondary">🤖 Giải thích Mô hình</a>
+                <a href="{{ url_for('teacher.statistics') }}" class="btn btn-primary">Xem Thống kê</a>
+            </div>
+        </div>
+
+        <!-- Search & Filter bar -->
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem;padding:1rem;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+            <input type="text" id="searchInput" placeholder="🔍 Tìm theo tên hoặc MSSV..."
+                style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;outline:none;">
+            <select id="filterLevel" style="padding:0.5rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;background:white;">
+                <option value="">Tất cả mức độ</option>
+                <option value="Cao">Cao</option>
+                <option value="Trung bình">Trung bình</option>
+                <option value="Thấp">Thấp</option>
+            </select>
+            <select id="filterBehavior" style="padding:0.5rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;background:white;">
+                <option value="">Tất cả hành vi</option>
+                <option value="1">Thụ động / ít tham gia</option>
+                <option value="2">Chưa ổn định / trì hoãn</option>
+                <option value="3">Tích cực và có chiến lược</option>
+            </select>
+            <select id="sortBy" style="padding:0.5rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.9rem;background:white;">
+                <option value="">Sắp xếp theo...</option>
+                <option value="score-desc">Điểm cao → thấp</option>
+                <option value="score-asc">Điểm thấp → cao</option>
+                <option value="id-asc">MSSV tăng dần</option>
+            </select>
+            <button onclick="resetFilters()" style="padding:0.5rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;background:white;cursor:pointer;font-size:0.9rem;">✕ Xóa lọc</button>
+        </div>
+
+        <div class="students-table-container">
+            <table class="students-table" id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã SV</th>
+                        <th>Tên</th>
+                        <th>Mức độ hoàn thành</th>
+                        <th>Điểm hoàn thành</th>
+                        <th>Hành vi học tập</th>
+                        <th>Điểm kiểm tra</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsBody">
+                    {% for student in students %}
+                    <tr
+                        data-name="{{ student.name|lower }}"
+                        data-id="{{ student.student_id|lower }}"
+                        data-level="{{ student.completion_level }}"
+                        data-behavior="{{ student.behavior_group }}"
+                        data-score="{{ student.completion_score }}"
+                        data-test="{{ student.raw_test_score }}"
+                        data-lastname="{{ student.name.split()|last|lower }}"
+                        data-firstname="{{ student.name.split()|first|lower }}">
+                        <td class="row-num">{{ loop.index }}</td>
+                        <td><strong>{{ student.student_id }}</strong></td>
+                        <td>{{ student.name }}</td>
+                        <td>
+                            <span class="level-badge-small level-{{ student.completion_level.lower().replace(' ', '-') }}">
+                                {{ student.completion_level }}
+                            </span>
+                        </td>
+                        <td>{{ "%.2f"|format(student.completion_score) }}/10</td>
+                        <td>{{ student.behavior_label }}</td>
+                        <td>{{ "%.2f"|format(student.raw_test_score) }}/10</td>
+                        <td>
+                            <a href="{{ url_for('teacher.student_detail', username=student.username) }}"
+                               class="btn btn-primary btn-sm">Xem chi tiết</a>
+                            <a href="{{ url_for('teacher.compare_students') }}?u={{ student.username }}"
+                               class="btn btn-secondary btn-sm">⚖️</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div id="noResults" style="display:none;text-align:center;padding:2rem;color:#94a3b8;">
+                Không tìm thấy sinh viên nào phù hợp.
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const rows = Array.from(document.querySelectorAll('#studentsBody tr'));
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const level = document.getElementById('filterLevel').value;
+    const behavior = document.getElementById('filterBehavior').value;
+    const sortBy = document.getElementById('sortBy').value;
+
+    let visible = rows.filter(row => {
+        const matchSearch = !search || row.dataset.name.includes(search) || row.dataset.id.includes(search);
+        const matchLevel = !level || row.dataset.level === level;
+        const matchBehavior = !behavior || row.dataset.behavior === behavior;
+        return matchSearch && matchLevel && matchBehavior;
+    });
+
+    if (sortBy === 'score-desc') visible.sort((a, b) => b.dataset.score - a.dataset.score);
+    else if (sortBy === 'score-asc') visible.sort((a, b) => a.dataset.score - b.dataset.score);
+    else if (sortBy === 'lastname-asc') visible.sort((a, b) => a.dataset.lastname.localeCompare(b.dataset.lastname, 'vi'));
+    else if (sortBy === 'firstname-asc') visible.sort((a, b) => a.dataset.firstname.localeCompare(b.dataset.firstname, 'vi'));
+    else if (sortBy === 'id-asc') visible.sort((a, b) => a.dataset.id.localeCompare(b.dataset.id));
+
+    const tbody = document.getElementById('studentsBody');
+    rows.forEach(r => r.style.display = 'none');
+    visible.forEach((row, i) => {
+        row.style.display = '';
+        row.querySelector('.row-num').textContent = i + 1;
+        tbody.appendChild(row);
+    });
+
+    const count = visible.length;
+    document.getElementById('studentCount').textContent = `(${count}/${rows.length} sinh viên)`;
+    document.getElementById('noResults').style.display = count === 0 ? 'block' : 'none';
+}
+
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('filterLevel').value = '';
+    document.getElementById('filterBehavior').value = '';
+    document.getElementById('sortBy').value = '';
+    applyFilters();
+}
+
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+document.getElementById('filterLevel').addEventListener('change', applyFilters);
+document.getElementById('filterBehavior').addEventListener('change', applyFilters);
+document.getElementById('sortBy').addEventListener('change', applyFilters);
+
+// Init count
+document.getElementById('studentCount').textContent = `(${rows.length} sinh viên)`;
+</script>
+{% endblock %}
+
+

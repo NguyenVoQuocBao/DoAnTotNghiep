@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}Phân tích Học tập - {{ data.student_name }}{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .hero-card {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border-radius: 16px; padding: 2rem; color: white; margin-bottom: 1.5rem;
+    }
+    .level-pill {
+        display: inline-block; padding: 6px 20px; border-radius: 30px;
+        font-weight: 700; font-size: 1rem; margin-top: 0.5rem;
+    }
+    .box { background: white; border-radius: 12px; padding: 1.5rem;
+           box-shadow: 0 4px 12px rgba(0,0,0,0.07); margin-bottom: 1.5rem; color: #1e293b;
+           filter: none !important; opacity: 1 !important; }
+    canvas { filter: none !important; image-rendering: crisp-edges; }
+    .box h4 { font-weight: 700; color: #1e293b; margin-bottom: 1rem; font-size: 1rem; }
+    .metric-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem; }
+    .metric-label { width: 160px; font-size: 0.85rem; color: #475569; flex-shrink: 0; }
+    .metric-bar-wrap { flex: 1; background: #e2e8f0; border-radius: 6px; height: 14px; }
+    .metric-bar { height: 14px; border-radius: 6px; transition: width 1s ease; }
+    .metric-val { width: 50px; text-align: right; font-weight: 700; font-size: 0.88rem; color: #1e293b; }
+    .prob-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+    .prob-label { width: 90px; font-size: 0.85rem; color: #475569; }
+    .prob-bar-wrap { flex: 1; background: #e2e8f0; border-radius: 6px; height: 20px; }
+    .prob-bar { height: 20px; border-radius: 6px; display: flex; align-items: center;
+                padding-left: 8px; font-size: 0.78rem; font-weight: 600; color: white;
+                transition: width 1s ease; }
+    .prob-val { width: 45px; text-align: right; font-weight: 700; font-size: 0.85rem; }
+    .suggest-item { display: flex; gap: 0.6rem; padding: 0.5rem 0;
+                    border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; color: #374151; }
+    .suggest-item:last-child { border-bottom: none; }
+    .suggest-icon { color: #10b981; font-weight: 700; flex-shrink: 0; }
+    .data-tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .data-tbl th { background: #f8fafc; color: #374151; padding: 0.6rem 0.75rem;
+                   text-align: left; border-bottom: 2px solid #e2e8f0; }
+    .data-tbl td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #1e293b; }
+    .badge-model { padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:960px;">
+
+    <!-- Hero -->
+    <div class="hero-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+            <div>
+                <div style="opacity:0.85;font-size:0.9rem;">Phân tích Mức độ Hoàn thành</div>
+                <h2 style="margin:0.25rem 0;font-size:1.6rem;">{{ data.student_name }}</h2>
+                <div style="opacity:0.85;">MSSV: {{ data.student_id }}</div>
+                <div style="margin-top:0.75rem;">
+                    {% set lv = data.completion_assessment.completion_level %}
+                    <span class="level-pill" style="background:
+                        {{ 'rgba(16,185,129,0.3)' if lv == 'Cao' else 'rgba(245,158,11,0.3)' if lv == 'Trung bình' else 'rgba(239,68,68,0.3)' }}">
+                        {{ lv }}
+                    </span>
+                </div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:3rem;font-weight:800;line-height:1;">
+                    {{ "%.2f"|format(data.completion_assessment.completion_score) }}
+                </div>
+                <div style="opacity:0.8;font-size:0.9rem;">/ 10 điểm</div>
+                <div style="margin-top:0.5rem;opacity:0.85;font-size:0.85rem;">
+                    {{ data.behavior_label }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+
+        <!-- Radar chart -->
+        <div class="box">
+            <h4>🕸️ Biểu đồ Năng lực</h4>
+            <canvas id="radarChart" height="260"></canvas>
+        </div>
+
+        <!-- Metric bars -->
+        <div class="box">
+            <h4>📊 Chi tiết từng chỉ số</h4>
+            {% set metrics = [
+                ('Điểm kiểm tra', data.completion_assessment.test_score, '#4f46e5'),
+                ('Hoàn thành BT', data.completion_assessment.assignment_score, '#10b981'),
+                ('Tần suất truy cập', data.completion_assessment.access_score, '#f59e0b'),
+                ('Thời gian học', data.completion_assessment.study_time_score, '#8b5cf6'),
+                ('Nộp bài đúng hạn', data.completion_assessment.submission_score, '#06b6d4'),
+            ] %}
+            {% for label, val, color in metrics %}
+            <div class="metric-row">
+                <div class="metric-label">{{ label }}</div>
+                <div class="metric-bar-wrap">
+                    <div class="metric-bar" style="width:{{ (val/10*100)|int }}%;background:{{ color }};"></div>
+                </div>
+                <div class="metric-val" style="color:{{ color }}">{{ "%.1f"|format(val) }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+
+        <!-- Prediction -->
+        <div class="box">
+            <h4>🤖 Dự đoán Mô hình</h4>
+            {% set rf = data.prediction.random_forest %}
+            {% set nn = data.prediction.neural_network %}
+            {% set ens = data.prediction.ensemble %}
+
+            <div style="margin-bottom:1rem;padding:0.75rem;background:#f8fafc;border-radius:8px;">
+                <div style="font-size:0.8rem;color:#64748b;margin-bottom:0.25rem;">Random Forest</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span class="badge-model" style="background:
+                        {{ '#d1fae5' if rf.predicted_level == 'Cao' else '#fef3c7' if rf.predicted_level == 'Trung bình' else '#fee2e2' }};
+                        color:{{ '#065f46' if rf.predicted_level == 'Cao' else '#92400e' if rf.predicted_level == 'Trung bình' else '#991b1b' }}">
+                        {{ rf.predicted_level }}
+                    </span>
+                    <span style="font-weight:700;color:#4f46e5;">{{ rf.confidence }}% tin cậy</span>
+                </div>
+            </div>
+
+            {% if nn and nn.predicted_level %}
+            <div style="margin-bottom:1rem;padding:0.75rem;background:#f8fafc;border-radius:8px;">
+                <div style="font-size:0.8rem;color:#64748b;margin-bottom:0.25rem;">Neural Network</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span class="badge-model" style="background:
+                        {{ '#d1fae5' if nn.predicted_level == 'Cao' else '#fef3c7' if nn.predicted_level == 'Trung bình' else '#fee2e2' }};
+                        color:{{ '#065f46' if nn.predicted_level == 'Cao' else '#92400e' if nn.predicted_level == 'Trung bình' else '#991b1b' }}">
+                        {{ nn.predicted_level }}
+                    </span>
+                    <span style="font-weight:700;color:#10b981;">{{ nn.confidence }}% tin cậy</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <h4 style="margin-top:1rem;">Xác suất (Random Forest)</h4>
+            {% for level, prob in rf.probabilities.items() %}
+            {% set pcolor = '#10b981' if level == 'Cao' else '#f59e0b' if level == 'Trung bình' else '#ef4444' %}
+            <div class="prob-row">
+                <div class="prob-label">{{ level }}</div>
+                <div class="prob-bar-wrap">
+                    <div class="prob-bar" style="width:{{ prob }}%;background:{{ pcolor }};">
+                        {% if prob > 15 %}{{ prob }}%{% endif %}
+                    </div>
+                </div>
+                <div class="prob-val" style="color:{{ pcolor }}">{{ prob }}%</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Recommendation -->
+        <div class="box">
+            <h4>💡 Gợi ý Học tập</h4>
+            <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:10px;padding:1rem;margin-bottom:1rem;">
+                <div style="font-size:0.8rem;color:#6d28d9;font-weight:600;">CẤP ĐỘ ĐỀ XUẤT</div>
+                <div style="font-size:1.3rem;font-weight:800;color:#4f46e5;">{{ data.recommendation.level }}</div>
+            </div>
+            {% for suggestion in data.recommendation.suggestions %}
+            <div class="suggest-item">
+                <span class="suggest-icon">✓</span>
+                <span>{{ suggestion }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Raw data table -->
+    <div class="box">
+        <h4>📋 Dữ liệu Học tập Chi tiết</h4>
+        <div style="overflow-x:auto;">
+            <table class="data-tbl">
+                <thead><tr><th>Chỉ số</th><th>Giá trị thực tế</th><th>Giá trị chuẩn hóa (1-10)</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>Điểm kiểm tra</td>
+                        <td>{{ "%.2f"|format(data.raw_data.test_scores) }} / {{ data.raw_data.max_test_score }}</td>
+                        <td><strong>{{ "%.2f"|format(data.normalized_data.test_scores) }}/10</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Tỷ lệ hoàn thành bài tập</td>
+                        <td>{{ "%.1f"|format(data.raw_data.assignment_completion_rate * 100) }}%</td>
+                        <td><strong>{{ "%.2f"|format(data.normalized_data.assignment_completion) }}/10</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Số lần truy cập</td>
+                        <td>{{ data.raw_data.access_count }} lần</td>
+                        <td><strong>{{ "%.2f"|format(data.normalized_data.access_frequency) }}/10</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Thời gian học tập</td>
+                        <td>{{ (data.raw_data.study_time_minutes // 60)|int }} giờ {{ (data.raw_data.study_time_minutes % 60)|int }} phút</td>
+                        <td><strong>{{ "%.2f"|format(data.normalized_data.study_time) }}/10</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Thời điểm nộp bài</td>
+                        <td>{{ "%.2f"|format(data.raw_data.get('submission_timing_score', 5.0)) }}/10</td>
+                        <td><strong>{{ "%.2f"|format(data.normalized_data.submission_timing) }}/10</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+        <a href="{{ url_for('student.dashboard') }}" class="btn btn-secondary btn-large">← Quay lại</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: ['Điểm KT', 'Hoàn thành BT', 'Truy cập', 'TG học', 'Nộp bài'],
+        datasets: [{
+            label: '{{ data.student_name }}',
+            data: [
+                {{ "%.2f"|format(data.normalized_data.test_scores) }},
+                {{ "%.2f"|format(data.normalized_data.assignment_completion) }},
+                {{ "%.2f"|format(data.normalized_data.access_frequency) }},
+                {{ "%.2f"|format(data.normalized_data.study_time) }},
+                {{ "%.2f"|format(data.normalized_data.submission_timing) }}
+            ],
+            backgroundColor: 'rgba(79,70,229,0.15)',
+            borderColor: '#4f46e5',
+            pointBackgroundColor: '#4f46e5',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: { r: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } },
+        plugins: { legend: { display: false } }
+    }
+});
+
+function saveHistory() {
+    fetch('{{ url_for("student.save_history") }}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}' }
+    })
+    .then(r => r.json())
+    .then(d => alert(d.success ? '✅ Đã lưu kết quả vào lịch sử!' : '❌ Lỗi khi lưu.'))
+    .catch(() => alert('❌ Lỗi kết nối.'));
+}
+</script>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Lịch sử Học tập - Hệ thống Phân tích Học tập{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Lịch sử Học tập</h2>
+        <p class="subtitle">{{ student_name }}</p>
+    </div>
+
+    {% if history %}
+    <div class="history-list">
+        {% for entry in history %}
+        <div class="history-item">
+            <div class="history-header">
+                <div class="history-time">
+                    {{ entry.timestamp[:19].replace('T', ' ') }}
+                </div>
+                <div class="history-level level-{{ entry.completion_level.lower().replace(' ', '-') }}">
+                    {{ entry.completion_level }}
+                </div>
+            </div>
+            <div class="history-body">
+                <div class="history-detail">
+                    <strong>Điểm hoàn thành:</strong> {{ "%.2f"|format(entry.completion_score) }}/10
+                </div>
+                <div class="history-detail">
+                    <strong>Hành vi:</strong> {{ entry.behavior_label }}
+                </div>
+                <div class="history-detail">
+                    <strong>Gợi ý cấp độ:</strong> {{ entry.recommendation_level }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>Chưa có lịch sử</h3>
+        <p>Bạn chưa có bản ghi lịch sử học tập nào. Hãy thực hiện phân tích và lưu kết quả để xem lịch sử.</p>
+        <a href="{{ url_for('student.analyze') }}" class="btn btn-primary">Thực hiện Phân tích</a>
+    </div>
+    {% endif %}
+
+    <div class="action-buttons">
+        <a href="{{ url_for('student.dashboard') }}" class="btn btn-secondary">
+            ← Quay lại Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
+

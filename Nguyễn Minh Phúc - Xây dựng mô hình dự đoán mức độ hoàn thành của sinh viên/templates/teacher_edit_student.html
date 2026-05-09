@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Cập nhật Dữ liệu Sinh viên - Hệ thống Phân tích Học tập{% endblock %}
+
+{% block extra_css %}
+<style>
+    .edit-container {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .edit-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .student-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+    }
+    
+    .student-info h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.5rem;
+    }
+    
+    .student-info p {
+        margin: 5px 0;
+        opacity: 0.9;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e8f4f8;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    .input-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .input-addon {
+        background: #f8f9fa;
+        padding: 12px 15px;
+        border: 2px solid #e8f4f8;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #7f8c8d;
+        min-width: 80px;
+        text-align: center;
+    }
+    
+    .range-slider {
+        width: 100%;
+        height: 8px;
+        border-radius: 5px;
+        background: #e8f4f8;
+        outline: none;
+        -webkit-appearance: none;
+    }
+    
+    .range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3498db;
+        cursor: pointer;
+    }
+    
+    .range-slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3498db;
+        cursor: pointer;
+        border: none;
+    }
+    
+    .range-value {
+        display: inline-block;
+        min-width: 70px;
+        text-align: center;
+        font-weight: 600;
+        color: #3498db;
+        font-size: 1.2rem;
+    }
+    
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        flex: 1;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-secondary {
+        background: #95a5a6;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background: #7f8c8d;
+    }
+    
+    .help-text {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-container">
+    <div class="edit-card">
+        <div class="student-info">
+            <h3><i class="fas fa-user-graduate me-2"></i>{{ student.name }}</h3>
+            <p><strong>MSSV:</strong> {{ student.student_id }}</p>
+            <p><strong>Lớp:</strong> {{ student.raw_data.get('class', 'N/A') }}</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('teacher.update_student', username=student.username) }}" id="updateForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            
+            <div class="form-group">
+                <label><i class="fas fa-graduation-cap me-2"></i>Điểm thi trung bình</label>
+                <div class="input-group">
+                    <input type="range" class="range-slider" id="test_scores" name="test_scores" 
+                           min="0" max="10" step="0.1" value="{{ student.raw_data.test_scores }}"
+                           oninput="updateValue('test_scores')">
+                    <span class="range-value" id="test_scores_value">{{ "%.1f"|format(student.raw_data.test_scores) }}</span>
+                </div>
+                <div class="help-text">Điểm trung bình các bài kiểm tra (0-10)</div>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-tasks me-2"></i>Tỷ lệ hoàn thành bài tập</label>
+                <div class="input-group">
+                    <input type="range" class="range-slider" id="assignment_completion" name="assignment_completion" 
+                           min="0" max="100" step="1" value="{{ (student.raw_data.assignment_completion_rate * 100)|int }}"
+                           oninput="updateValue('assignment_completion')">
+                    <span class="range-value" id="assignment_completion_value">{{ (student.raw_data.assignment_completion_rate * 100)|int }}%</span>
+                </div>
+                <div class="help-text">Phần trăm bài tập đã hoàn thành (0-100%)</div>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-sign-in-alt me-2"></i>Số lần truy cập hệ thống</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="access_count" name="access_count" 
+                           min="0" max="200" value="{{ student.raw_data.access_count }}">
+                    <span class="input-addon">lần</span>
+                </div>
+                <div class="help-text">Số lần đăng nhập vào hệ thống học tập</div>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-clock me-2"></i>Thời gian học tập</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="study_time" name="study_time" 
+                           min="0" max="2000" step="10" value="{{ student.raw_data.study_time_minutes|int }}">
+                    <span class="input-addon">phút</span>
+                </div>
+                <div class="help-text">Tổng thời gian học tập (phút)</div>
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-calendar-check me-2"></i>Thời điểm nộp bài</label>
+                <select class="form-control" id="submission_timing" name="submission_timing">
+                    <option value="1" {% if student.raw_data.get('submission_timing', 5) <= 3 %}selected{% endif %}>Luôn nộp sớm</option>
+                    <option value="5" {% if 3 < student.raw_data.get('submission_timing', 5) <= 7 %}selected{% endif %}>Nộp đúng hạn</option>
+                    <option value="9" {% if student.raw_data.get('submission_timing', 5) > 7 %}selected{% endif %}>Thường nộp muộn</option>
+                </select>
+                <div class="help-text">Thói quen nộp bài tập của sinh viên</div>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Lưu thay đổi
+                </button>
+                <a href="{{ url_for('teacher.student_detail', username=student.username) }}" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>Hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateValue(id) {
+    const input = document.getElementById(id);
+    const valueSpan = document.getElementById(id + '_value');
+    
+    if (id === 'assignment_completion') {
+        valueSpan.textContent = input.value + '%';
+    } else {
+        valueSpan.textContent = parseFloat(input.value).toFixed(1);
+    }
+}
+</script>
+{% endblock %}

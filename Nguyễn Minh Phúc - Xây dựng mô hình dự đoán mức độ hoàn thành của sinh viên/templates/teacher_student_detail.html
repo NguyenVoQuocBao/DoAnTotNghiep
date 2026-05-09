@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Chi tiết Sinh viên - {{ data.student_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Chi tiết Sinh viên</h2>
+        <p class="subtitle">{{ data.student_name }} ({{ data.student_id }})</p>
+    </div>
+
+    <!-- Thông tin tổng quan -->
+    <div class="analysis-result-card">
+        <div class="result-header">
+            <h3>Kết quả Phân tích</h3>
+        </div>
+        <div class="result-body">
+            <div class="result-level level-{{ data.completion_assessment.completion_level.lower().replace(' ', '-') }}">
+                <div class="level-badge">{{ data.completion_assessment.completion_level }}</div>
+                <div class="level-score">Điểm: {{ "%.2f"|format(data.completion_assessment.completion_score) }}/10</div>
+            </div>
+            <div class="result-details">
+                <p><strong>Nhóm hành vi:</strong> {{ data.behavior_label }}</p>
+                <p><strong>Dự đoán (Random Forest):</strong> {{ data.prediction.random_forest.predicted_level }}</p>
+                <p><strong>Độ tin cậy:</strong> {{ data.prediction.random_forest.confidence }}%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chi tiết đánh giá -->
+    <div class="section">
+        <h3>Chi tiết Đánh giá</h3>
+        <div class="assessment-details">
+            <div class="detail-item">
+                <span class="detail-label">Điểm kiểm tra:</span>
+                <span class="detail-value">{{ "%.2f"|format(data.completion_assessment.test_score) }}/10</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Hoàn thành bài tập:</span>
+                <span class="detail-value">{{ "%.2f"|format(data.completion_assessment.assignment_score) }}/10</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Tần suất truy cập:</span>
+                <span class="detail-value">{{ "%.2f"|format(data.completion_assessment.access_score) }}/10</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Thời gian học tập:</span>
+                <span class="detail-value">{{ "%.2f"|format(data.completion_assessment.study_time_score) }}/10</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Thời điểm nộp bài:</span>
+                <span class="detail-value">{{ "%.2f"|format(data.completion_assessment.submission_score) }}/10</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gợi ý học tập -->
+    <div class="section">
+        <h3>💡 Gợi ý Học tập</h3>
+        <div class="recommendation-card" style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <div class="recommendation-header" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #e8f4f8;">
+                <h4 style="color: #2c3e50; font-size: 1.2rem; font-weight: 600; margin: 0;">
+                    Cấp độ đề xuất: <strong style="color: #3498db;">{{ data.recommendation.level }}</strong>
+                </h4>
+            </div>
+            <div class="recommendation-list">
+                {% for suggestion in data.recommendation.suggestions %}
+                <div class="suggestion-item" style="display: flex; align-items: flex-start; margin-bottom: 12px; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                    <span class="suggestion-icon" style="color: #10b981; font-size: 1.2rem; margin-right: 12px; font-weight: bold;">✓</span>
+                    <span class="suggestion-text" style="color: #2c3e50; font-size: 1rem; line-height: 1.6; flex: 1;">{{ suggestion }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Xác suất dự đoán -->
+    <div class="section">
+        <h3>Xác suất Dự đoán (Random Forest)</h3>
+        <div class="probability-chart">
+            {% for level, prob in data.prediction.random_forest.probabilities.items() %}
+            <div class="probability-item">
+                <div class="prob-label">{{ level }}</div>
+                <div class="prob-bar">
+                    <div class="prob-fill" style="width: {{ prob }}%"></div>
+                </div>
+                <div class="prob-value">{{ prob }}%</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Dữ liệu thô -->
+    <div class="section">
+        <h3>Dữ liệu Học tập</h3>
+        <div class="data-table-container">
+            <table class="data-table">
+                <tr>
+                    <th>Chỉ số</th>
+                    <th>Giá trị thực tế</th>
+                    <th>Giá trị chuẩn hóa</th>
+                </tr>
+                <tr>
+                    <td>Điểm kiểm tra</td>
+                    <td>{{ "%.2f"|format(data.raw_data.test_scores) }}/{{ data.raw_data.max_test_score }}</td>
+                    <td>{{ "%.2f"|format(data.normalized_data.test_scores) }}/10</td>
+                </tr>
+                <tr>
+                    <td>Tỷ lệ hoàn thành bài tập</td>
+                    <td>{{ "%.1f"|format(data.raw_data.assignment_completion_rate * 100) }}%</td>
+                    <td>{{ "%.2f"|format(data.normalized_data.assignment_completion) }}/10</td>
+                </tr>
+                <tr>
+                    <td>Số lần truy cập</td>
+                    <td>{{ data.raw_data.access_count }} lần</td>
+                    <td>{{ "%.2f"|format(data.normalized_data.access_frequency) }}/10</td>
+                </tr>
+                <tr>
+                    <td>Thời gian học tập</td>
+                    <td>{{ (data.raw_data.study_time_minutes // 60)|int }} giờ {{ (data.raw_data.study_time_minutes % 60)|int }} phút</td>
+                    <td>{{ "%.2f"|format(data.normalized_data.study_time) }}/10</td>
+                </tr>
+                <tr>
+                    <td>Thời điểm nộp bài</td>
+                    <td>{{ "%.2f"|format(data.raw_data.get('submission_timing_score', 5.0)) }}/10</td>
+                    <td>{{ "%.2f"|format(data.normalized_data.submission_timing) }}/10</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Lịch sử học tập -->
+    {% if data.history %}
+    <div class="section">
+        <h3>Lịch sử Học tập (10 bản ghi gần nhất)</h3>
+        <div class="history-list">
+            {% for entry in data.history %}
+            <div class="history-item">
+                <div class="history-header">
+                    <div class="history-time">{{ entry.timestamp[:19].replace('T', ' ') }}</div>
+                    <div class="history-level level-{{ entry.completion_level.lower().replace(' ', '-') }}">
+                        {{ entry.completion_level }}
+                    </div>
+                </div>
+                <div class="history-body">
+                    <div class="history-detail">
+                        <strong>Điểm hoàn thành:</strong> {{ "%.2f"|format(entry.completion_score) }}/10
+                    </div>
+                    <div class="history-detail">
+                        <strong>Hành vi:</strong> {{ entry.behavior_label }}
+                    </div>
+                    <div class="history-detail">
+                        <strong>Gợi ý cấp độ:</strong> {{ entry.recommendation_level }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Hành động -->
+    <div class="action-buttons">
+        <a href="{{ url_for('teacher.edit_student', username=data.username) }}" class="btn btn-primary btn-large">
+            <i class="fas fa-edit me-2"></i>Cập nhật Dữ liệu
+        </a>
+        <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-secondary btn-large">
+            ← Quay lại Danh sách
+        </a>
+    </div>
+</div>
+{% endblock %}
+

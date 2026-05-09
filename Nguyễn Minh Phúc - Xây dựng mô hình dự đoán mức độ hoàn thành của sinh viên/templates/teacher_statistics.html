@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block title %}Thống kê - Hệ thống Phân tích Học tập{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .stat-card-new {
+        background: white; border-radius: 12px; padding: 1.25rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.07); color: #1e293b;
+        border-left: 4px solid #4f46e5;
+    }
+    .stat-card-new .val { font-size: 2rem; font-weight: 700; color: #4f46e5; }
+    .stat-card-new .lbl { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; }
+    .chart-box {
+        background: white; border-radius: 12px; padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.07); margin-bottom: 1.5rem;
+    }
+    .chart-box h4 { color: #1e293b; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+    .top-table { width: 100%; border-collapse: collapse; }
+    .top-table th { background: #f8fafc; color: #374151; padding: 0.6rem 0.75rem; font-size: 0.85rem; text-align: left; }
+    .top-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #1e293b; font-size: 0.9rem; }
+    .top-table tr:hover td { background: #f8fafc; }
+    .score-bar-wrap { background: #e2e8f0; border-radius: 4px; height: 8px; width: 100%; }
+    .score-bar { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #4f46e5, #818cf8); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>📊 Thống kê Tổng quan</h2>
+        <p class="subtitle">Phân tích toàn bộ lớp học — {{ stats.total_students }} sinh viên</p>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="dashboard-grid" style="margin-bottom:1.5rem;">
+        <div class="stat-card-new" style="border-color:#4f46e5">
+            <div class="lbl">Tổng sinh viên</div>
+            <div class="val" style="color:#4f46e5">{{ stats.total_students }}</div>
+        </div>
+        <div class="stat-card-new" style="border-color:#10b981">
+            <div class="lbl">Điểm hoàn thành TB</div>
+            <div class="val" style="color:#10b981">{{ "%.2f"|format(stats.avg_completion_score) }}/10</div>
+        </div>
+        <div class="stat-card-new" style="border-color:#f59e0b">
+            <div class="lbl">Điểm kiểm tra TB</div>
+            <div class="val" style="color:#f59e0b">{{ "%.2f"|format(stats.avg_test_score) }}/10</div>
+        </div>
+        <div class="stat-card-new" style="border-color:#8b5cf6">
+            <div class="lbl">Thời gian học TB</div>
+            <div class="val" style="color:#8b5cf6;font-size:1.4rem;">{{ (stats.avg_study_time // 60)|int }}g {{ (stats.avg_study_time % 60)|int }}p</div>
+        </div>
+    </div>
+
+    <!-- Row 1: Pie charts -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+        <div class="chart-box">
+            <h4>🎯 Phân bố Mức độ Hoàn thành</h4>
+            <canvas id="completionPie" height="220"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4>🧠 Phân bố Nhóm Hành vi</h4>
+            <canvas id="behaviorPie" height="220"></canvas>
+        </div>
+    </div>
+
+    <!-- Row 2: Bar charts -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+        <div class="chart-box">
+            <h4>📈 Phân bố Điểm Hoàn thành</h4>
+            <canvas id="scoreHistogram" height="220"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4>📝 Phân bố Điểm Kiểm tra</h4>
+            <canvas id="testHistogram" height="220"></canvas>
+        </div>
+    </div>
+
+    <!-- Row 3: Radar + Top students -->
+    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:1.5rem;margin-bottom:1.5rem;">
+        <div class="chart-box">
+            <h4>🕸️ Chỉ số Trung bình Lớp</h4>
+            <canvas id="radarChart" height="260"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4>🏆 Top 10 Sinh viên Xuất sắc</h4>
+            <table class="top-table">
+                <thead><tr><th>#</th><th>MSSV</th><th>Tên</th><th>Điểm</th><th></th></tr></thead>
+                <tbody>
+                {% for s in stats.top_students %}
+                <tr>
+                    <td><strong>{{ loop.index }}</strong></td>
+                    <td>{{ s.id }}</td>
+                    <td>{{ s.name }}</td>
+                    <td>{{ "%.2f"|format(s.score) }}/10</td>
+                    <td style="width:80px">
+                        <div class="score-bar-wrap">
+                            <div class="score-bar" style="width:{{ (s.score/10*100)|int }}%"></div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+        <a href="{{ url_for('teacher.export_excel') }}" class="btn btn-success btn-large">📥 Xuất Excel</a>
+        <a href="{{ url_for('advanced.advanced_dashboard') }}" class="btn btn-primary btn-large">🔬 Advanced Analytics</a>
+        <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-secondary btn-large">← Quay lại</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Data from server
+const completionData = {
+    labels: ['Cao', 'Trung bình', 'Thấp'],
+    values: [
+        {{ stats.completion_levels['Cao'] }},
+        {{ stats.completion_levels['Trung bình'] }},
+        {{ stats.completion_levels['Thấp'] }}
+    ]
+};
+const behaviorData = {
+    labels: ['Thụ động', 'Chưa ổn định', 'Tích cực'],
+    values: [
+        {{ stats.behavior_groups[1].count }},
+        {{ stats.behavior_groups[2].count }},
+        {{ stats.behavior_groups[3].count }}
+    ]
+};
+const scoreDistrib = {{ stats.score_distribution | tojson }};
+const testDistrib = {{ stats.test_distribution | tojson }};
+
+// 1. Completion pie
+new Chart(document.getElementById('completionPie'), {
+    type: 'doughnut',
+    data: {
+        labels: completionData.labels,
+        datasets: [{ data: completionData.values, backgroundColor: ['#10b981','#f59e0b','#ef4444'], borderWidth: 2 }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 2. Behavior pie
+new Chart(document.getElementById('behaviorPie'), {
+    type: 'doughnut',
+    data: {
+        labels: behaviorData.labels,
+        datasets: [{ data: behaviorData.values, backgroundColor: ['#94a3b8','#f59e0b','#4f46e5'], borderWidth: 2 }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 3. Score histogram
+const histLabels = ['0–2', '2–4', '4–6', '6–8', '8–10'];
+new Chart(document.getElementById('scoreHistogram'), {
+    type: 'bar',
+    data: {
+        labels: histLabels,
+        datasets: [{
+            label: 'Số sinh viên',
+            data: Object.values(scoreDistrib),
+            backgroundColor: ['#ef4444','#f97316','#f59e0b','#10b981','#4f46e5'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+});
+
+// 4. Test histogram
+new Chart(document.getElementById('testHistogram'), {
+    type: 'bar',
+    data: {
+        labels: histLabels,
+        datasets: [{
+            label: 'Số sinh viên',
+            data: Object.values(testDistrib),
+            backgroundColor: ['#ef4444','#f97316','#f59e0b','#10b981','#4f46e5'],
+            borderRadius: 6
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+});
+
+// 5. Radar chart
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: ['Điểm kiểm tra', 'Hoàn thành', 'Truy cập', 'Thời gian học', 'Nộp bài đúng hạn'],
+        datasets: [{
+            label: 'Trung bình lớp',
+            data: [
+                {{ "%.2f"|format(stats.avg_test_score) }},
+                {{ "%.2f"|format(stats.avg_completion_score) }},
+                Math.min(10, {{ "%.2f"|format(stats.avg_access_count / 10) }}),
+                Math.min(10, {{ "%.2f"|format(stats.avg_study_time / 120) }}),
+                5
+            ],
+            backgroundColor: 'rgba(79,70,229,0.15)',
+            borderColor: '#4f46e5',
+            pointBackgroundColor: '#4f46e5',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: { r: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } },
+        plugins: { legend: { display: false } }
+    }
+});
+</script>
+{% endblock %}

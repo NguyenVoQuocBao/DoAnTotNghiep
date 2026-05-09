@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% block title %}So sánh Sinh viên{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .card-box { background:white; border-radius:12px; padding:1.5rem; box-shadow:0 4px 12px rgba(0,0,0,0.07); margin-bottom:1.5rem; color:#1e293b; }
+    .card-box h5 { color:#1e293b; font-weight:600; margin-bottom:1rem; }
+    .student-card { border-radius:12px; padding:1.25rem; color:white; margin-bottom:1rem; }
+    .badge-level { padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:600; }
+    .metric-row { display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid #f1f5f9; font-size:0.88rem; }
+    .metric-row:last-child { border-bottom:none; }
+    .metric-key { color:#64748b; }
+    .metric-val { font-weight:600; color:#1e293b; }
+    .select-box { padding:0.5rem 0.75rem; border:1.5px solid #e2e8f0; border-radius:8px; font-size:0.9rem; background:white; color:#1e293b; min-width:200px; }
+    .winner-badge { background:#fef3c7; color:#92400e; border-radius:6px; padding:2px 8px; font-size:0.75rem; font-weight:600; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="max-width:1200px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>⚖️ So sánh Sinh viên</h2>
+            <p class="text-muted mb-0">Chọn tối đa 4 sinh viên để so sánh trực quan</p>
+        </div>
+        <a href="{{ url_for('teacher.dashboard') }}" class="btn btn-secondary">← Quay lại</a>
+    </div>
+
+    <!-- Student selector -->
+    <div class="card-box">
+        <h5>🔍 Chọn sinh viên để so sánh</h5>
+        <form method="GET" action="{{ url_for('teacher.compare_students') }}" id="compareForm">
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
+                {% for i in range(4) %}
+                <select name="u" class="select-box" onchange="document.getElementById('compareForm').submit()">
+                    <option value="">-- Sinh viên {{ i+1 }} --</option>
+                    {% for s in all_students %}
+                    <option value="{{ s.username }}"
+                        {% if selected|length > i and selected[i] == s.username %}selected{% endif %}>
+                        {{ s.student_id }} — {{ s.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% endfor %}
+                {% if comparison %}
+                <a href="{{ url_for('teacher.compare_students') }}" class="btn btn-secondary btn-sm">✕ Xóa</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    {% if comparison %}
+
+    <!-- Radar chart -->
+    <div class="card-box">
+        <h5>🕸️ Biểu đồ Radar so sánh</h5>
+        <div style="max-width:600px;margin:0 auto;">
+            <canvas id="radarChart" height="300"></canvas>
+        </div>
+    </div>
+
+    <!-- Student cards + metrics -->
+    <div class="row mb-4">
+        {% set colors = ['#4f46e5','#10b981','#f59e0b','#ef4444'] %}
+        {% set color_light = ['#ede9fe','#d1fae5','#fef3c7','#fee2e2'] %}
+        {% for s in comparison %}
+        <div class="col-md-{{ 12 // comparison|length }}">
+            <div class="student-card" style="background:{{ colors[loop.index0] }}">
+                <div style="font-size:1.1rem;font-weight:700;">{{ s.name }}</div>
+                <div style="opacity:0.85;font-size:0.85rem;">{{ s.student_id }}</div>
+                <div style="margin-top:0.5rem;">
+                    <span style="background:rgba(255,255,255,0.25);border-radius:20px;padding:3px 12px;font-size:0.85rem;font-weight:600;">
+                        {{ s.level }} — {{ s.score }}/10
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-box" style="border-top:4px solid {{ colors[loop.index0] }}">
+                <div class="metric-row">
+                    <span class="metric-key">Điểm kiểm tra</span>
+                    <span class="metric-val">{{ "%.2f"|format(s.normalized.test_scores) }}/10</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-key">Hoàn thành BT</span>
+                    <span class="metric-val">{{ "%.2f"|format(s.normalized.assignment_completion) }}/10</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-key">Tần suất truy cập</span>
+                    <span class="metric-val">{{ "%.2f"|format(s.normalized.access_frequency) }}/10</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-key">Thời gian học</span>
+                    <span class="metric-val">{{ "%.2f"|format(s.normalized.study_time) }}/10</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-key">Nộp bài đúng hạn</span>
+                    <span class="metric-val">{{ "%.2f"|format(s.normalized.submission_timing) }}/10</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-key">Hành vi</span>
+                    <span class="metric-val" style="font-size:0.8rem;">{{ s.behavior_group }}</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-key">Gợi ý cấp độ</span>
+                    <span class="metric-val">{{ s.recommendation }}</span>
+                </div>
+                <div style="margin-top:0.75rem;text-align:center;">
+                    <a href="{{ url_for('teacher.student_detail', username=s.username) }}"
+                       class="btn btn-sm" style="background:{{ colors[loop.index0] }};color:white;border:none;">
+                        Xem chi tiết →
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Bar chart comparison -->
+    <div class="card-box">
+        <h5>📊 So sánh từng chỉ số</h5>
+        <canvas id="barChart" height="120"></canvas>
+    </div>
+
+    <!-- Summary table -->
+    <div class="card-box">
+        <h5>📋 Bảng tổng hợp</h5>
+        <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#f8fafc;">
+                        <th style="padding:0.75rem;text-align:left;color:#374151;border-bottom:2px solid #e2e8f0;">Chỉ số</th>
+                        {% for s in comparison %}
+                        <th style="padding:0.75rem;text-align:center;color:{{ colors[loop.index0] }};border-bottom:2px solid #e2e8f0;">
+                            {{ s.name.split()|last }}
+                        </th>
+                        {% endfor %}
+                        <th style="padding:0.75rem;text-align:center;color:#64748b;border-bottom:2px solid #e2e8f0;">Cao nhất</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set metrics = [
+                        ('Điểm hoàn thành', 'score'),
+                        ('Điểm kiểm tra', 'test_scores'),
+                        ('Hoàn thành BT', 'assignment_completion'),
+                        ('Tần suất truy cập', 'access_frequency'),
+                        ('Thời gian học', 'study_time'),
+                        ('Nộp bài đúng hạn', 'submission_timing'),
+                    ] %}
+                    {% for label, key in metrics %}
+                    {% set vals = [] %}
+                    {% for s in comparison %}
+                        {% if key == 'score' %}{% set v = s.score %}{% else %}{% set v = s.normalized[key] %}{% endif %}
+                        {% set _ = vals.append(v) %}
+                    {% endfor %}
+                    {% set max_val = vals|max %}
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                        <td style="padding:0.6rem 0.75rem;color:#374151;font-weight:500;">{{ label }}</td>
+                        {% for s in comparison %}
+                            {% if key == 'score' %}{% set v = s.score %}{% else %}{% set v = s.normalized[key] %}{% endif %}
+                            <td style="padding:0.6rem 0.75rem;text-align:center;
+                                font-weight:{{ '700' if v == max_val else '400' }};
+                                color:{{ colors[loop.index0] if v == max_val else '#1e293b' }};">
+                                {{ "%.2f"|format(v) }}
+                                {% if v == max_val %}<span class="winner-badge">↑</span>{% endif %}
+                            </td>
+                        {% endfor %}
+                        <td style="padding:0.6rem 0.75rem;text-align:center;color:#64748b;font-size:0.85rem;">
+                            {% for s in comparison %}
+                                {% if key == 'score' %}{% set v = s.score %}{% else %}{% set v = s.normalized[key] %}{% endif %}
+                                {% if v == max_val %}{{ s.name.split()|last }}{% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="card-box text-center py-5">
+        <div style="font-size:3rem;margin-bottom:1rem;">👆</div>
+        <h5>Chọn ít nhất 2 sinh viên để bắt đầu so sánh</h5>
+        <p class="text-muted">Dùng các dropdown phía trên để chọn sinh viên</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if comparison %}
+<script>
+const colors = ['#4f46e5','#10b981','#f59e0b','#ef4444'];
+const students = [
+    {% for s in comparison %}
+    {
+        name: {{ s.name | tojson }},
+        normalized: {
+            test_scores: {{ s.normalized.test_scores }},
+            assignment_completion: {{ s.normalized.assignment_completion }},
+            access_frequency: {{ s.normalized.access_frequency }},
+            study_time: {{ s.normalized.study_time }},
+            submission_timing: {{ s.normalized.submission_timing }}
+        }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+];
+const labels = ['Điểm KT', 'Hoàn thành BT', 'Truy cập', 'TG học', 'Nộp bài'];
+
+// Radar chart
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: labels,
+        datasets: students.map((s, i) => ({
+            label: s.name,
+            data: [
+                s.normalized.test_scores,
+                s.normalized.assignment_completion,
+                s.normalized.access_frequency,
+                s.normalized.study_time,
+                s.normalized.submission_timing
+            ],
+            borderColor: colors[i],
+            backgroundColor: colors[i] + '25',
+            borderWidth: 2,
+            pointBackgroundColor: colors[i]
+        }))
+    },
+    options: {
+        responsive: true,
+        scales: { r: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } },
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+// Bar chart
+new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: students.map((s, i) => ({
+            label: s.name,
+            data: [
+                s.normalized.test_scores,
+                s.normalized.assignment_completion,
+                s.normalized.access_frequency,
+                s.normalized.study_time,
+                s.normalized.submission_timing
+            ],
+            backgroundColor: colors[i] + 'cc',
+            borderColor: colors[i],
+            borderWidth: 1,
+            borderRadius: 4
+        }))
+    },
+    options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true, max: 10 } },
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

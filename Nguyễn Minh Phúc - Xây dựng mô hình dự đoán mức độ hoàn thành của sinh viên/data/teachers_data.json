@@ -1,0 +1,20 @@
+{
+  "teacher001": {
+    "username": "teacher001",
+    "password": "teacher123",
+    "name": "Giáo viên 001",
+    "email": "teacher001@university.edu.vn"
+  },
+  "teacher002": {
+    "username": "teacher002",
+    "password": "teacher123",
+    "name": "Giáo viên 002",
+    "email": "teacher002@university.edu.vn"
+  },
+  "admin": {
+    "username": "admin",
+    "password": "admin123",
+    "name": "Quản trị viên",
+    "email": "admin@university.edu.vn"
+  }
+}

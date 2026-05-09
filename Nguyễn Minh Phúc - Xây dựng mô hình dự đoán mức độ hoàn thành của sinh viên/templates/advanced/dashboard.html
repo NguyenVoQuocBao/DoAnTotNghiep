@@ -1,0 +1,1339 @@
+{% extends "base.html" %}
+
+{% block title %}Advanced Analytics Dashboard{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+<style>
+    .analytics-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .metric-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    
+    .metric-label {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .chart-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    .chart-container canvas {
+        max-height: 300px !important;
+        height: 300px !important;
+    }
+    
+    .chart-container h5,
+    .chart-container h6 {
+        color: #2c3e50 !important;
+        font-weight: 600;
+    }
+    
+    .chart-container .text-muted {
+        color: #6c757d !important;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .status-online { background-color: #27ae60; }
+    .status-warning { background-color: #f39c12; }
+    .status-error { background-color: #e74c3c; }
+    
+    .real-time-badge {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+    
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="analytics-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="mb-2">
+                            <i class="fas fa-chart-line me-3"></i>
+                            Bảng điều khiển phân tích nâng cao
+                        </h1>
+                        <p class="mb-0 opacity-75">
+                            Phân tích học tập toàn diện với công nghệ AI
+                        </p>
+                    </div>
+                    <div class="text-end">
+                        <span class="real-time-badge">
+                            <i class="fas fa-broadcast-tower me-1"></i>
+                            TRỰC TIẾP
+                        </span>
+                        <div class="mt-2">
+                            <small>Cập nhật lần cuối: <span id="last-update">{{ analytics.generated_at[:19] if analytics.generated_at else 'N/A' }}</span></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="metric-card text-center">
+                <div class="metric-value text-primary">{{ total_students }}</div>
+                <div class="metric-label">Tổng số sinh viên</div>
+                <div class="mt-2">
+                    <span class="status-indicator status-online"></span>
+                    <small class="text-muted">Hoạt động</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card text-center">
+                <div class="metric-value text-success">
+                    {{ "%.1f"|format(analytics.summary.high_performers_percentage if analytics.summary else 0) }}%
+                </div>
+                <div class="metric-label">Sinh viên xuất sắc</div>
+                <div class="mt-2">
+                    <span class="status-indicator {% if analytics.summary and analytics.summary.high_performers_percentage > 50 %}status-online{% elif analytics.summary and analytics.summary.high_performers_percentage > 30 %}status-warning{% else %}status-error{% endif %}"></span>
+                    <small class="text-muted">Hiệu suất</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card text-center">
+                <div class="metric-value text-warning">
+                    {{ "%.1f"|format(analytics.summary.anomaly_rate if analytics.summary else 0) }}%
+                </div>
+                <div class="metric-label">Sinh viên cần hỗ trợ</div>
+                <div class="mt-2">
+                    <span class="status-indicator {% if analytics.summary and analytics.summary.anomaly_rate < 10 %}status-online{% elif analytics.summary and analytics.summary.anomaly_rate < 20 %}status-warning{% else %}status-error{% endif %}"></span>
+                    <small class="text-muted">Mức độ rủi ro</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card text-center">
+                <div class="metric-value text-info">
+                    <i class="fas fa-{% if analytics.trends and analytics.trends.trend_direction == 'improving' %}arrow-up text-success{% elif analytics.trends and analytics.trends.trend_direction == 'declining' %}arrow-down text-danger{% else %}minus text-warning{% endif %}"></i>
+                </div>
+                <div class="metric-label">Xu hướng</div>
+                <div class="mt-2">
+                    <small class="text-muted">
+                        {% if analytics.trends and analytics.trends.trend_direction == 'improving' %}
+                        Đang cải thiện
+                        {% elif analytics.trends and analytics.trends.trend_direction == 'declining' %}
+                        Đang giảm
+                        {% else %}
+                        Ổn định
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <!-- Quick Links to dedicated pages -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <a href="{{ url_for('advanced.clustering') }}" class="text-decoration-none">
+                <div class="metric-card text-center" style="cursor:pointer;border-top:4px solid #4f46e5">
+                    <i class="fas fa-project-diagram fa-2x text-primary mb-2"></i>
+                    <div class="fw-bold">Phân nhóm sinh viên</div>
+                    <small class="text-muted">K-means Clustering</small>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('advanced.anomalies') }}" class="text-decoration-none">
+                <div class="metric-card text-center" style="cursor:pointer;border-top:4px solid #ef4444">
+                    <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+                    <div class="fw-bold">Phát hiện rủi ro</div>
+                    <small class="text-muted">Sinh viên cần hỗ trợ</small>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('advanced.model_comparison') }}" class="text-decoration-none">
+                <div class="metric-card text-center" style="cursor:pointer;border-top:4px solid #10b981">
+                    <i class="fas fa-balance-scale fa-2x text-success mb-2"></i>
+                    <div class="fw-bold">So sánh mô hình</div>
+                    <small class="text-muted">RF vs Neural Network</small>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ url_for('advanced.real_time') }}" class="text-decoration-none">
+                <div class="metric-card text-center" style="cursor:pointer;border-top:4px solid #f59e0b">
+                    <i class="fas fa-broadcast-tower fa-2x text-warning mb-2"></i>
+                    <div class="fw-bold">Thời gian thực</div>
+                    <small class="text-muted">Live Statistics</small>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <ul class="nav nav-pills mb-4" id="analytics-tabs" role="tablist">
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="analytics-tab-content">
+        <!-- Overview Tab -->
+        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+            <div class="row">
+                <!-- Performance Distribution -->
+                <div class="col-md-6 mb-3">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-chart-pie me-2"></i>Phân bố hiệu suất</h5>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Behavior Distribution -->
+                <div class="col-md-6 mb-3">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-users me-2"></i>Hành vi học tập</h5>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="behaviorChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Clustering Overview -->
+            {% if analytics.clustering and analytics.clustering.cluster_analysis %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-project-diagram me-2"></i>Tổng quan phân nhóm sinh viên</h5>
+                        <div class="row">
+                            {% for cluster_id, cluster in analytics.clustering.cluster_analysis.items() %}
+                            <div class="col-md-3 mb-3">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <h6 class="card-title text-primary">{{ cluster.name }}</h6>
+                                        <div class="metric-value text-dark" style="font-size: 2rem;">{{ cluster.size }}</div>
+                                        <small class="text-muted">{{ "%.1f"|format(cluster.percentage) }}% of students</small>
+                                        <hr>
+                                        <small class="text-muted d-block">{{ cluster.description }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- At-Risk Students Summary -->
+            {% if analytics.anomalies %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-exclamation-triangle me-2"></i>Tóm tắt sinh viên cần hỗ trợ</h5>
+                        {% if analytics.anomalies.anomalies and analytics.anomalies.anomalies|length > 0 %}
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>{{ analytics.anomalies.anomalies|length }}</strong> sinh viên được phát hiện có hành vi học tập bất thường 
+                            ({{ "%.1f"|format(analytics.anomalies.anomaly_rate) }}% tổng số)
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã sinh viên</th>
+                                        <th>Điểm bất thường</th>
+                                        <th>Mức độ rủi ro</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for anomaly in analytics.anomalies.anomalies[:10] %}
+                                    <tr>
+                                        <td><strong>{{ anomaly.student_id }}</strong></td>
+                                        <td>{{ "%.3f"|format(anomaly.anomaly_score) }}</td>
+                                        <td>
+                                            {% if anomaly.anomaly_score < -0.5 %}
+                                            <span class="badge bg-danger">Rủi ro cao</span>
+                                            {% else %}
+                                            <span class="badge bg-warning">Rủi ro trung bình</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('teacher.student_detail', username=anomaly.student_id) }}" 
+                                               class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Không phát hiện sinh viên có hành vi học tập bất thường. Tất cả sinh viên đang học tập trong phạm vi bình thường.
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Performance Heatmap -->
+            {% if analytics.visualizations and analytics.visualizations.heatmap %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-th me-2"></i>Bản đồ nhiệt hiệu suất</h5>
+                        <div class="text-center">
+                            <img src="data:image/png;base64,{{ analytics.visualizations.heatmap }}" 
+                                 class="img-fluid" alt="Bản đồ nhiệt hiệu suất" style="max-height: 400px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Clustering Tab -->
+        <div class="tab-pane fade" id="clustering" role="tabpanel">
+            {% if analytics.clustering and analytics.clustering.cluster_analysis %}
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-dark mb-0"><i class="fas fa-project-diagram me-2"></i>Phân tích phân nhóm sinh viên</h5>
+                            <button class="btn btn-outline-primary btn-sm" onclick="refreshClustering()">
+                                <i class="fas fa-sync-alt me-1"></i>Làm mới
+                            </button>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Hệ thống đã phân nhóm <strong>{{ analytics.summary.total_students }}</strong> sinh viên thành 
+                            <strong>{{ analytics.clustering.cluster_analysis|length }}</strong> nhóm dựa trên hành vi học tập
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cluster Summary Cards -->
+            <div class="row">
+                {% for cluster_id, cluster in analytics.clustering.cluster_analysis.items() %}
+                <div class="col-md-6 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h6 class="mb-0">
+                                <i class="fas fa-users me-2"></i>{{ cluster.name }}
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 text-center border-end">
+                                    <div class="metric-value text-primary" style="font-size: 2rem;">{{ cluster.size }}</div>
+                                    <small class="text-muted">Sinh viên</small>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="metric-value text-success" style="font-size: 2rem;">{{ "%.1f"|format(cluster.percentage) }}%</div>
+                                    <small class="text-muted">Tỷ lệ</small>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="text-muted mb-2"><small>{{ cluster.description }}</small></p>
+                            
+                            {% if cluster.characteristics %}
+                            <div class="mt-3">
+                                <strong class="text-muted d-block mb-2" style="font-size: 0.85rem;">Đặc điểm:</strong>
+                                <div class="row g-2">
+                                    {% for key, value in cluster.characteristics.items() %}
+                                    <div class="col-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <small class="text-muted d-block">{{ key|replace('_', ' ')|title }}</small>
+                                            <strong>{{ "%.2f"|format(value) }}</strong>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Cluster Visualization -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h6 class="text-dark"><i class="fas fa-chart-scatter me-2"></i>Biểu đồ phân nhóm</h6>
+                        <canvas id="clusterScatterChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Không có dữ liệu phân nhóm
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Anomalies Tab -->
+        <div class="tab-pane fade" id="anomalies" role="tabpanel">
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-exclamation-triangle me-2"></i>Phát hiện sinh viên có nguy cơ</h5>
+                        <div id="anomalies-content">
+                            <p class="text-muted">Đang tải kết quả phát hiện bất thường...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Models Tab -->
+        <div class="tab-pane fade" id="models" role="tabpanel">
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-brain me-2"></i>So sánh mô hình AI</h5>
+                        <div id="models-content">
+                            <p class="text-muted">Đang tải so sánh mô hình...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time Tab -->
+        <div class="tab-pane fade" id="realtime" role="tabpanel">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-users me-2"></i>Kết nối đang hoạt động</h5>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="connectionsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-chart-line me-2"></i>Chỉ số hiệu suất trực tiếp</h5>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="liveMetricsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="chart-container">
+                        <h5 class="text-dark"><i class="fas fa-broadcast-tower me-2"></i>Trạng thái hệ thống</h5>
+                        <div id="system-status">
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator status-online"></span>
+                                <span class="text-dark">Hệ thống đang hoạt động - Tất cả dịch vụ hoạt động bình thường</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="chart-container">
+                <h5 class="text-dark"><i class="fas fa-download me-2"></i>Tùy chọn xuất dữ liệu</h5>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary" onclick="exportAdvancedReport()">
+                        <i class="fas fa-file-excel me-1"></i>Xuất báo cáo đầy đủ
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="exportClusteringData()">
+                        <i class="fas fa-project-diagram me-1"></i>Xuất dữ liệu phân nhóm
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="exportAnomaliesData()">
+                        <i class="fas fa-exclamation-triangle me-1"></i>Xuất phân tích rủi ro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize Socket.IO
+const socket = io();
+
+// Chart instances
+let performanceChart, behaviorChart, connectionsChart, liveMetricsChart;
+
+// Initialize charts when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCharts();
+    setupSocketEvents();
+    loadTabContent();
+});
+
+function initializeCharts() {
+    // Performance Distribution Chart
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    const performanceData = {{ analytics.summary.performance_distribution|tojson if analytics.summary else '{}' }};
+    
+    performanceChart = new Chart(performanceCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Cao', 'Trung bình', 'Thấp'],
+            datasets: [{
+                data: [
+                    performanceData['Cao'] || 0,
+                    performanceData['Trung bình'] || 0,
+                    performanceData['Thấp'] || 0
+                ],
+                backgroundColor: ['#27ae60', '#f39c12', '#e74c3c'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Phân bố mức độ hoàn thành',
+                    color: '#2c3e50',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                }
+            }
+        }
+    });
+
+    // Behavior Distribution Chart
+    const behaviorCtx = document.getElementById('behaviorChart').getContext('2d');
+    const clusterData = {{ analytics.clustering.cluster_analysis|tojson if analytics.clustering else '{}' }};
+    
+    const behaviorLabels = [];
+    const behaviorValues = [];
+    const behaviorColors = ['#3498db', '#9b59b6', '#e67e22', '#1abc9c'];
+    
+    Object.values(clusterData).forEach((cluster, index) => {
+        behaviorLabels.push(cluster.name);
+        behaviorValues.push(cluster.size);
+    });
+    
+    behaviorChart = new Chart(behaviorCtx, {
+        type: 'bar',
+        data: {
+            labels: behaviorLabels,
+            datasets: [{
+                label: 'Số sinh viên',
+                data: behaviorValues,
+                backgroundColor: behaviorColors,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Phân nhóm hành vi học tập',
+                    color: '#2c3e50',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Initialize other charts
+    initializeConnectionsChart();
+    initializeLiveMetricsChart();
+}
+
+function initializeConnectionsChart() {
+    const connectionsCtx = document.getElementById('connectionsChart').getContext('2d');
+    
+    connectionsChart = new Chart(connectionsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Sinh viên', 'Giáo viên', 'Quản trị'],
+            datasets: [{
+                label: 'Kết nối đang hoạt động',
+                data: [0, 0, 0],
+                backgroundColor: ['#3498db', '#9b59b6', '#e67e22'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Số lượng kết nối theo loại người dùng',
+                    color: '#2c3e50',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+}
+
+function initializeLiveMetricsChart() {
+    const liveCtx = document.getElementById('liveMetricsChart').getContext('2d');
+    
+    liveMetricsChart = new Chart(liveCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Sinh viên xuất sắc %',
+                data: [],
+                borderColor: '#27ae60',
+                backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Biến động tỷ lệ sinh viên xuất sắc',
+                    color: '#2c3e50',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        },
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 10
+                        },
+                        maxRotation: 45,
+                        minRotation: 45
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            animation: {
+                duration: 750
+            }
+        }
+    });
+}
+
+function setupSocketEvents() {
+    socket.on('connect', function() {
+        console.log('Connected to server');
+        socket.emit('request_real_time_metrics');
+    });
+
+    socket.on('real_time_metrics', function(data) {
+        updateRealTimeCharts(data.data);
+        updateLastUpdateTime();
+    });
+
+    socket.on('analytics_update', function(data) {
+        if (data.type === 'teacher_dashboard') {
+            updateDashboardMetrics(data.data);
+        }
+    });
+
+    // Request updates every 30 seconds
+    setInterval(() => {
+        socket.emit('request_real_time_metrics');
+    }, 30000);
+}
+
+function updateRealTimeCharts(data) {
+    // Update connections chart
+    if (connectionsChart && data.connection_stats) {
+        const stats = data.connection_stats.by_user_type;
+        connectionsChart.data.datasets[0].data = [
+            stats.students || 0,
+            stats.teachers || 0,
+            stats.admins || 0
+        ];
+        connectionsChart.update();
+    }
+
+    // Update live metrics chart
+    if (liveMetricsChart && data.student_stats) {
+        const now = new Date().toLocaleTimeString();
+        liveMetricsChart.data.labels.push(now);
+        liveMetricsChart.data.datasets[0].data.push(data.student_stats.high_performers_percentage);
+        
+        // Keep only last 20 data points
+        if (liveMetricsChart.data.labels.length > 20) {
+            liveMetricsChart.data.labels.shift();
+            liveMetricsChart.data.datasets[0].data.shift();
+        }
+        
+        liveMetricsChart.update();
+    }
+}
+
+function updateDashboardMetrics(data) {
+    // Update performance chart
+    if (performanceChart && data.completion_distribution) {
+        performanceChart.data.datasets[0].data = [
+            data.completion_distribution['Cao'] || 0,
+            data.completion_distribution['Trung bình'] || 0,
+            data.completion_distribution['Thấp'] || 0
+        ];
+        performanceChart.update();
+    }
+}
+
+function updateLastUpdateTime() {
+    document.getElementById('last-update').textContent = new Date().toLocaleString();
+}
+
+function loadTabContent() {
+    // Load content for inactive tabs when they're clicked
+    document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function(event) {
+            const target = event.target.getAttribute('data-bs-target');
+            
+            if (target === '#clustering') {
+                initializeClusterScatterChart();
+            } else if (target === '#anomalies') {
+                loadAnomaliesContent();
+            } else if (target === '#models') {
+                loadModelsContent();
+            }
+        });
+    });
+}
+
+function initializeClusterScatterChart() {
+    const canvas = document.getElementById('clusterScatterChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const clusterData = {{ analytics.clustering|tojson if analytics.clustering else '{}' }};
+    
+    if (!clusterData.cluster_analysis) return;
+    
+    // Create scatter plot datasets for each cluster
+    const datasets = [];
+    const colors = ['#3498db', '#9b59b6', '#e67e22', '#1abc9c', '#e74c3c'];
+    
+    Object.entries(clusterData.cluster_analysis).forEach(([clusterId, cluster], index) => {
+        // Generate sample points for visualization (in real scenario, use actual student positions)
+        const points = [];
+        for (let i = 0; i < cluster.size; i++) {
+            points.push({
+                x: Math.random() * 10,
+                y: Math.random() * 10
+            });
+        }
+        
+        datasets.push({
+            label: cluster.name,
+            data: points,
+            backgroundColor: colors[index % colors.length],
+            borderColor: colors[index % colors.length],
+            pointRadius: 6,
+            pointHoverRadius: 8
+        });
+    });
+    
+    new Chart(ctx, {
+        type: 'scatter',
+        data: { datasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Phân bố sinh viên theo nhóm',
+                    color: '#2c3e50',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': (' + 
+                                   context.parsed.x.toFixed(2) + ', ' + 
+                                   context.parsed.y.toFixed(2) + ')';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Thành tích học tập',
+                        color: '#2c3e50',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    },
+                    ticks: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Mức độ tham gia',
+                        color: '#2c3e50',
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    },
+                    ticks: {
+                        color: '#2c3e50',
+                        font: {
+                            size: 11
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function loadAnomaliesContent() {
+    fetch('/advanced/api/anomalies')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayAnomalies(data.data);
+            }
+        })
+        .catch(error => console.error('Error loading anomalies:', error));
+}
+
+function loadModelsContent() {
+    fetch('/advanced/api/model_comparison')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayModelComparison(data.data);
+            }
+        })
+        .catch(error => console.error('Error loading model comparison:', error));
+}
+
+function displayAnomalies(data) {
+    const container = document.getElementById('anomalies-content');
+    
+    if (data.anomalies && data.anomalies.length > 0) {
+        let html = `
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Phát hiện ${data.anomalies.length} sinh viên có hành vi học tập bất thường (${data.anomaly_rate.toFixed(1)}% tổng số)
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Lưu ý:</strong> Sinh viên được đánh dấu dựa trên <strong>tổng hợp 5 yếu tố</strong>: 
+                Điểm thi, Hoàn thành BT, Tần suất truy cập, Thời gian học, Thời điểm nộp bài.
+                Sinh viên có điểm cao nhưng pattern học tập bất thường vẫn có thể được đánh dấu.
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Mã SV</th>
+                            <th>Điểm bất thường</th>
+                            <th>Mức rủi ro</th>
+                            <th>Vấn đề chính</th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        data.anomalies.forEach(anomaly => {
+            const riskLevel = anomaly.anomaly_score < -0.5 ? 'Cao' : 'Trung bình';
+            const riskClass = riskLevel === 'Cao' ? 'text-danger' : 'text-warning';
+            
+            // Phân tích vấn đề chính
+            const issues = [];
+            if (anomaly.features.test_scores < 4) {
+                issues.push('<span class="badge bg-danger me-1">Điểm thi thấp</span>');
+            }
+            if (anomaly.features.assignment_completion < 4) {
+                issues.push('<span class="badge bg-warning me-1">Ít làm BT</span>');
+            }
+            if (anomaly.features.access_frequency < 3) {
+                issues.push('<span class="badge bg-info me-1">Ít truy cập</span>');
+            }
+            if (anomaly.features.study_time < 3) {
+                issues.push('<span class="badge bg-secondary me-1">Ít thời gian học</span>');
+            }
+            if (anomaly.features.submission_timing < 4) {
+                issues.push('<span class="badge bg-dark me-1">Nộp bài trễ</span>');
+            }
+            
+            // Nếu điểm cao nhưng vẫn bị đánh dấu
+            if (anomaly.features.test_scores >= 7 && issues.length > 0) {
+                issues.push('<span class="badge bg-primary me-1">⚠️ Pattern bất thường</span>');
+            }
+            
+            const issuesHtml = issues.length > 0 ? issues.join('') : '<span class="text-muted">Không rõ</span>';
+            
+            html += `
+                <tr>
+                    <td><strong>${anomaly.student_id}</strong></td>
+                    <td>${anomaly.anomaly_score.toFixed(3)}</td>
+                    <td><span class="${riskClass}"><strong>${riskLevel}</strong></span></td>
+                    <td>${issuesHtml}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-info" onclick="showAnomalyDetails('${anomaly.student_id}', ${JSON.stringify(anomaly.features).replace(/"/g, '&quot;')})">
+                            <i class="fas fa-chart-bar me-1"></i>Xem chi tiết
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    } else {
+        container.innerHTML = `
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>
+                Không phát hiện sinh viên có hành vi học tập bất thường. Tất cả sinh viên đang học tập trong phạm vi bình thường.
+            </div>
+        `;
+    }
+}
+
+function showAnomalyDetails(studentId, features) {
+    const modalHtml = `
+        <div class="modal fade" id="anomalyModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Chi tiết sinh viên ${studentId}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Các chỉ số (thang điểm 0-10):</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Điểm thi:</span>
+                                <strong class="${features.test_scores >= 7 ? 'text-success' : features.test_scores >= 5 ? 'text-warning' : 'text-danger'}">${features.test_scores.toFixed(1)}/10</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Hoàn thành bài tập:</span>
+                                <strong class="${features.assignment_completion >= 7 ? 'text-success' : features.assignment_completion >= 5 ? 'text-warning' : 'text-danger'}">${features.assignment_completion.toFixed(1)}/10</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Tần suất truy cập:</span>
+                                <strong class="${features.access_frequency >= 7 ? 'text-success' : features.access_frequency >= 5 ? 'text-warning' : 'text-danger'}">${features.access_frequency.toFixed(1)}/10</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Thời gian học:</span>
+                                <strong class="${features.study_time >= 7 ? 'text-success' : features.study_time >= 5 ? 'text-warning' : 'text-danger'}">${features.study_time.toFixed(1)}/10</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Thời điểm nộp bài:</span>
+                                <strong class="${features.submission_timing >= 7 ? 'text-success' : features.submission_timing >= 5 ? 'text-warning' : 'text-danger'}">${features.submission_timing.toFixed(1)}/10</strong>
+                            </li>
+                        </ul>
+                        <div class="alert alert-info mt-3">
+                            <small>
+                                <i class="fas fa-lightbulb me-1"></i>
+                                ${features.test_scores >= 7 && (features.assignment_completion < 5 || features.access_frequency < 5) 
+                                    ? '<strong>Lưu ý:</strong> Sinh viên có điểm thi cao nhưng mức độ tham gia thấp - cần theo dõi để đảm bảo tính trung thực trong học tập.'
+                                    : 'Sinh viên cần được hỗ trợ để cải thiện kết quả học tập.'}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <a href="/teacher/student/${studentId}" class="btn btn-primary">Xem hồ sơ đầy đủ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Remove old modal if exists
+    const oldModal = document.getElementById('anomalyModal');
+    if (oldModal) oldModal.remove();
+    
+    // Add and show new modal
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    const modal = new bootstrap.Modal(document.getElementById('anomalyModal'));
+    modal.show();
+}
+
+function displayModelComparison(data) {
+    const container = document.getElementById('models-content');
+    
+    let html = '<div class="row">';
+    
+    // Model Performance Comparison
+    if (data.model_performance) {
+        html += `
+            <div class="col-md-6">
+                <h6>Model Performance Metrics</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Accuracy</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+        
+        if (data.model_performance.random_forest) {
+            const rf = data.model_performance.random_forest;
+            html += `
+                <tr>
+                    <td><i class="fas fa-tree me-1"></i>Random Forest</td>
+                    <td>${(rf.cv_mean * 100).toFixed(1)}%</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                </tr>
+            `;
+        }
+        
+        if (data.model_performance.neural_network && Object.keys(data.model_performance.neural_network).length > 0) {
+            const nn = data.model_performance.neural_network;
+            html += `
+                <tr>
+                    <td><i class="fas fa-brain me-1"></i>Neural Network</td>
+                    <td>${(nn.val_accuracy * 100).toFixed(1)}%</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                </tr>
+            `;
+        } else {
+            html += `
+                <tr>
+                    <td><i class="fas fa-brain me-1"></i>Neural Network</td>
+                    <td>N/A</td>
+                    <td><span class="badge bg-secondary">Not Available</span></td>
+                </tr>
+            `;
+        }
+        
+        html += '</tbody></table></div></div>';
+    }
+    
+    // Sample Predictions
+    if (data.sample_predictions) {
+        html += `
+            <div class="col-md-6">
+                <h6>Sample Predictions</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Actual</th>
+                                <th>RF Prediction</th>
+                                <th>NN Prediction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        `;
+        
+        data.sample_predictions.slice(0, 5).forEach(pred => {
+            html += `
+                <tr>
+                    <td>${pred.student_id}</td>
+                    <td><span class="badge bg-primary">${pred.actual_level}</span></td>
+                    <td><span class="badge bg-info">${pred.predictions.random_forest?.predicted_level || 'N/A'}</span></td>
+                    <td><span class="badge bg-success">${pred.predictions.neural_network?.predicted_level || 'N/A'}</span></td>
+                </tr>
+            `;
+        });
+        
+        html += '</tbody></table></div></div>';
+    }
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// Export functions
+function exportAdvancedReport() {
+    fetch('/advanced/api/export_advanced_report')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Xuất báo cáo thành công: ' + data.filename);
+            } else {
+                alert('Xuất báo cáo thất bại: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi xuất báo cáo:', error);
+            alert('Xuất báo cáo thất bại');
+        });
+}
+
+function jsonToCsv(data) {
+    if (!data || !data.length) return '';
+    const headers = Object.keys(data[0]);
+    const rows = data.map(row => headers.map(h => {
+        const v = row[h] === null || row[h] === undefined ? '' : row[h];
+        return typeof v === 'string' && v.includes(',') ? `"${v}"` : v;
+    }).join(','));
+    return '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
+}
+
+function downloadCsv(content, filename) {
+    const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+}
+
+function exportClusteringData() {
+    fetch('/advanced/api/clustering')
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                const clusters = data.data.clusters || [];
+                const rows = clusters.map((c, i) => ({
+                    'Nhóm': i + 1,
+                    'Số sinh viên': c.size || 0,
+                    'Điểm TB': c.avg_completion_score ? c.avg_completion_score.toFixed(2) : '',
+                    'Mức hoàn thành chủ yếu': c.dominant_level || '',
+                    'Mô tả': c.description || ''
+                }));
+                downloadCsv(jsonToCsv(rows), 'phan_nhom_sinh_vien.csv');
+            }
+        });
+}
+
+function exportAnomaliesData() {
+    fetch('/advanced/api/anomalies')
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                const students = data.data.at_risk_students || data.data || [];
+                const rows = students.map(s => ({
+                    'MSSV': s.student_id || '',
+                    'Tên': s.name || '',
+                    'Mức độ rủi ro': s.risk_level || '',
+                    'Điểm hoàn thành': s.completion_score ? s.completion_score.toFixed(2) : '',
+                    'Vấn đề chính': s.main_issue || s.issues || '',
+                    'Gợi ý': s.suggestion || s.recommendation || ''
+                }));
+                downloadCsv(jsonToCsv(rows), 'sinh_vien_co_nguy_co.csv');
+            }
+        });
+}
+
+function refreshClustering() {
+    fetch('/advanced/api/clustering')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update clustering visualization
+                // This would need to be implemented based on the specific visualization library
+                console.log('Clustering refreshed:', data.data);
+            }
+        });
+}
+</script>
+{% endblock %}

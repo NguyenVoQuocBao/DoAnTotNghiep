@@ -1,0 +1,56 @@
+{
+  "STU001": [
+    {
+      "timestamp": "2026-03-05T17:40:27.841959",
+      "student_id": "STU001",
+      "completion_level": "Thấp",
+      "completion_score": 3.44,
+      "behavior_label": "Thụ động hoặc ít tham gia",
+      "recommendation_level": "Cơ bản"
+    }
+  ],
+  "STU002": [
+    {
+      "timestamp": "2026-03-05T17:40:54.162146",
+      "student_id": "STU002",
+      "completion_level": "Thấp",
+      "completion_score": 2.89,
+      "behavior_label": "Thụ động hoặc ít tham gia",
+      "recommendation_level": "Cơ bản"
+    }
+  ],
+  "122001605": [
+    {
+      "timestamp": "2026-04-23T18:27:09.309389",
+      "student_id": "122001605",
+      "completion_level": "Cao",
+      "completion_score": 7.65,
+      "behavior_label": "Học tập tích cực và có chiến lược",
+      "recommendation_level": "Nâng cao"
+    },
+    {
+      "timestamp": "2026-05-01T09:39:06.431666",
+      "student_id": "122001605",
+      "completion_level": "Cao",
+      "completion_score": 7.65,
+      "behavior_label": "Học tập tích cực và có chiến lược",
+      "recommendation_level": "Nâng cao"
+    },
+    {
+      "timestamp": "2026-05-01T09:42:33.808181",
+      "student_id": "122001605",
+      "completion_level": "Cao",
+      "completion_score": 7.65,
+      "behavior_label": "Học tập tích cực và có chiến lược",
+      "recommendation_level": "Nâng cao"
+    },
+    {
+      "timestamp": "2026-05-01T09:43:59.205974",
+      "student_id": "122001605",
+      "completion_level": "Cao",
+      "completion_score": 8.03,
+      "behavior_label": "Học tập tích cực và có chiến lược",
+      "recommendation_level": "Nâng cao"
+    }
+  ]
+}
